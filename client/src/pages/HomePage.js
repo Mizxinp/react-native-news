@@ -1,9 +1,12 @@
 import React,{Component} from 'react'
-import { Text,View,StyleSheet } from 'react-native'
+import { Text,View,StyleSheet,Button } from 'react-native'
 import { createMaterialTopTabNavigator,createAppContainer } from 'react-navigation'
 import ViewPager from "@react-native-community/viewpager";
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import actons from '../action/index'
+import { connect } from 'react-redux';
+
 const BASE_URL = 'http://192.168.1.102:3000/news/'
 const THEME_COLOR = '#678'
 class HomePage extends Component{
@@ -40,12 +43,12 @@ class HomePage extends Component{
 			// }
 				}
 		})
-		console.log(tabs);
 		
 		return tabs
 
 	}
 	render(){
+		console.log('ha',this.props);
 		const TabNavigation = createAppContainer(createMaterialTopTabNavigator(
 			this.changeTab(),
 			{
@@ -67,6 +70,14 @@ class HomePage extends Component{
 			<View style={styles.container}>
 				{/* {navigationBar} */}
 				{TabNavigation&&<TabNavigation />}
+				<Button
+					title="改变主题色"
+					onPress={() => {
+							// let {dispatch} = this.props.navigation;
+							// dispatch(onThemeChange('red'))
+							this.props.onThemeChange('red');
+					}} 
+				/>
 			</View>
 	
 		)
@@ -74,18 +85,32 @@ class HomePage extends Component{
 }
 
 class HomeTabPage extends Component{
+	changeTheme = () => {
+
+	}
 	render(){
 		// console.log('ha',this.props);
 		const {tabLabel} = this.props
 		
 		return(
-			<View>
+			<View style={styles.container}>
 				<Text>{tabLabel}</Text>
+				
+				
+
 			</View>
 		)
 	}
 }
-export default HomePage
+
+const mapStateToProps = state => ({
+	// theme:state.theme.theme
+})
+const mapDispatchToProps = dispatch => ({
+	onThemeChange:(theme)=>dispatch(actons.onThemeChange(theme))
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(HomePage)
 
 const styles = StyleSheet.create({
 	container: {

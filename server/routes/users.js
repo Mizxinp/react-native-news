@@ -30,7 +30,6 @@ router.get('/', function(req, res, next) {
         })
     } else {
         if (doc) {
-          console.log('haha',doc);
           
             res.json({
                 status: '0',

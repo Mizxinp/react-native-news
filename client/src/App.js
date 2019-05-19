@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
-// import {Provider} from 'react-redux';
+import {Provider} from 'react-redux';
 import RootNavigator from './navigator/AppNavigators';
-// import store from './store/index'
+import store from './store/index'
 
 export default class App extends Component {
     render() {
         /** * 将store传递给App框架 */
-        return <RootNavigator/>
+
+        return <Provider store={store}>
+            <RootNavigator/>
+        </Provider> 
     }
 }
-
-{/* <Provider store={store}>
-    <RootNavigator/>
-</Provider>      */}

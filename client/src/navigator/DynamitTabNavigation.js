@@ -5,7 +5,7 @@ import {
 	createAppContainer
 } from 'react-navigation'
 import { BottomTabBar } from 'react-navigation-tabs'
-// import {connect} from 'react-redux'
+import {connect} from 'react-redux'
 // import EventBus from 'react-native-event-bus'
 
 // 图标
@@ -88,7 +88,7 @@ class DynamitTabNavigation extends React.Component{
 				
 				// tabBarComponent:tabBarComponent
 				tabBarComponent:props=>{
-					return <TabBarComponent  {...props}/>
+					return <TabBarComponent  {...props} theme={this.props.theme}/>
 				}
 			})
 		)
@@ -96,6 +96,7 @@ class DynamitTabNavigation extends React.Component{
 	render(){
 		// 用于解决内层组件无法跳转到外层出现的问题
 		// NavigationUtil.navigation = this.props.navigation
+		console.log('tab',this.props);
 		const Tab = this.tabNavigation();
 		return(
 			<Tab 
@@ -121,6 +122,8 @@ class TabBarComponent extends React.Component{
 		}
 	}
 	render(){
+		
+		
 		/*没有redux之前 
 		const { routes,index } = this.props.navigation.state
 		if(routes[index].params){
@@ -132,13 +135,13 @@ class TabBarComponent extends React.Component{
 		return 	<BottomTabBar 
 							{...this.props}
 							// activeTintColor={this.theme.tintColor || this.props.activeTintColor}
-							// activeTintColor={}
+							activeTintColor={this.props.theme}
 						/>
 	}
 }
 
-// const mapStateToProps = state => ({
-// 	theme:state.theme.theme
-// })
+const mapStateToProps = state => ({
+	theme:state.theme.theme
+})
 
-export default DynamitTabNavigation
+export default connect(mapStateToProps)(DynamitTabNavigation)

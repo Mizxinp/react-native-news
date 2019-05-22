@@ -90,7 +90,7 @@ class MyPage extends React.Component{
 												color: theme.themeColor,
 										}}
 								/>
-								<Text>Mizxinp</Text>
+								<Text>登录 / 注册</Text>
 						</View>
 						<Ionicons
 								name={'ios-arrow-forward'}

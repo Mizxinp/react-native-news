@@ -10,7 +10,7 @@ class WelcomePage extends React.Component{
 			NavigationUtil.resetToHomePage({
 				navigation:this.props.navigation
 			})
-		},200)
+		},1000)
 	}
 	componentWillUnmount(){
 		this.timer && clearTimeout(this.timer)

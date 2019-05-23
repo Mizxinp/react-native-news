@@ -9,8 +9,9 @@ import { connect } from 'react-redux';
 import NavigationBar from '../component/NavigationBar'
 import {changeTag} from '../util/util'
 import HomeItem from '../component/homeItem'
+import NavigationUtil from '../navigator/NavigationUtil'
 
-const BASE_URL = 'http://192.168.1.102:3000/news/national?tag='
+const BASE_URL = 'http://192.168.1.101:3000/news/national?tag='
 // const URL = `https://api.github.com/search/repositories?q=`
 const pageSize = 10;
 class HomePage extends Component{
@@ -170,14 +171,22 @@ class HomeTab extends Component{
 						hideLoadingMore: true,//默认隐藏加载更多
 				}
 		}
-		// console.log('获取到的数据;',store);
+		console.log('获取到的数据;',store);
 		return store;
 	}
 	renderItem = (data) => {
 		const {theme} = this.props
-		console.log('单列表的数据',data);
+		// console.log('dadd',data);
+		
 		return <HomeItem 
 							data={data}
+							onSelect={(callback)=>{
+								NavigationUtil.goPage({
+									theme,
+									contentId:data.item.item_id
+								},'DetailPage')
+							}} 
+							theme={theme}
 						/>
 	}
 	render(){

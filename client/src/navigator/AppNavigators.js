@@ -8,6 +8,7 @@ import {createReactNavigationReduxMiddleware,  createReduxContainer} from 'react
 
 import WelcomePage from '../pages/WelcomePage';
 import MainPage from '../pages/MainPage';
+import DetailPage from '../pages/DetailPage'
 
 export const rootCom = 'Init'	//根路由
 
@@ -23,6 +24,12 @@ const InitNavigator = createStackNavigator({
 const MainNavigator = createStackNavigator({
 	MainPage:{
 		screen:MainPage,
+		navigationOptions:{
+			header:null
+		}
+	},
+	DetailPage:{
+		screen:DetailPage,
 		navigationOptions:{
 			header:null
 		}

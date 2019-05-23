@@ -27,7 +27,8 @@ let newsDetailSchema = new Schema({
 	"comment_count": Number,
 	"logo_show_strategy": String,
 	"creator_uid": Number,
-	"content_id":Number
+	"content_id":Number,
+	"comments":Array
 	
 })
 

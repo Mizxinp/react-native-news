@@ -3,6 +3,7 @@ import {rootCom, RootNavigator} from '../navigator/AppNavigators';
 
 import theme from './theme/index'
 import home from './home/index'
+import newsDetail from './newsDetail/index'
 
 //1.指定默认state
 const navState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams(rootCom));
@@ -18,7 +19,8 @@ const navReducer = (state = navState, action) => {
 const index = combineReducers({
     nav: navReducer,
     theme,
-    home
+    home,
+    newsDetail
 });
 
 export default index;

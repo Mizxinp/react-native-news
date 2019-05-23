@@ -1,15 +1,16 @@
 import React,{Component} from 'react'
 import {Image, StyleSheet, Text, TouchableOpacity, View,} from 'react-native'
-
 import moment from 'moment'
+
+import NavigationUtil from '../navigator/NavigationUtil'
+
 export default class HomeItem extends Component{
 	render(){
 		const {data} = this.props
-		console.log('图片路径',data);
-		let date = new Date(data.item.behot_time).getFullYear
+		// let date = new Date(data.item.behot_time).getFullYear
 		return(
 			<TouchableOpacity
-					// onPress={()=>this.onItemClick()}
+					onPress={()=>this.props.onSelect()}
 			>
 				<View style={styles.cell_container}>
 					<View style={styles.left}>

@@ -71,7 +71,6 @@ export default class DataStore{
 
 	// 获取网络数据
 	 fetchNetData(url){
-		 console.log('处理处理',url);
 		 
 		 return new Promise((resolve,reject)=>{
 				 	fetch(url)

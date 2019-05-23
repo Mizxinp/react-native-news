@@ -12,9 +12,9 @@ import actions from '../action/index'
 class MainPage extends React.Component{
 	constructor(props){
 		super(props);
-		// this.backPress = new backPressComponent({backPress:this.onBackPress()})
+		this.backPress = new backPressComponent({backPress:this.onBackPress()})
 	}
-/* 	componentDidMount(){
+	componentDidMount(){
 		this.backPress.componentDidMount()
 	}
 	componentWillUnmount(){
@@ -29,7 +29,7 @@ class MainPage extends React.Component{
 		}
 		dispatch(NavigationActions.back());
 		return true
-	} */
+	}
 
 	// 渲染自定义主题页
 	renderCustomThemeView() {
@@ -42,7 +42,7 @@ class MainPage extends React.Component{
 	}
 	render(){
 		// 用于解决内层组件无法跳转到外层出现的问题
-		// NavigationUtil.navigation = this.props.navigation
+		NavigationUtil.navigation = this.props.navigation
 		return(
 			<View style={{flex:1}}>
 				<DynamitTabNavigation />

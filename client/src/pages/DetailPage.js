@@ -1,9 +1,9 @@
 import React ,{Component} from 'react'
 import { View,Text,ScrollView,StyleSheet,Image } from 'react-native'
-import { Container, Header, Content, Button,H1} from 'native-base'
 import {connect} from 'react-redux'
 import HTMLView from 'react-native-htmlview'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+
 
 import NavigationBar from '../component/NavigationBar'
 import backPressComponent from '../component/backPressComponent'
@@ -11,7 +11,7 @@ import NavigationUtil from '../navigator/NavigationUtil'
 import ViewUtil from '../util/ViewUtil'
 import actions from '../action/index'
 
-const BASE_URL = 'http://192.168.1.101:3000/news_info?content_id='
+const BASE_URL = 'http://192.168.1.103:3000/news_info?content_id='
 
 class DetailPage extends Component{
 	constructor(props){
@@ -49,7 +49,7 @@ class DetailPage extends Component{
 	}
 	renderComment=(data) =>{
 		const {user} = data
-		return <View style={{marginTop:15}}>
+		return <View style={{marginTop:15}} key={data.content_id}>
 						<View style={styles.discript}>
 							<View style={styles.left}>
 								{user&&<Image style={styles.avatar}
@@ -101,7 +101,7 @@ class DetailPage extends Component{
 				{navigationBar}
 				<ScrollView style={styles.body}>
 					{/* <Button danger><Text> Danger </Text></Button> */}
-					<H1 style={styles.title}>{item&&item.title}</H1>
+					<Text style={styles.title}>{item&&item.title}</Text>
 					<View style={styles.discript}>
 						<View style={styles.left}>
 							{item.media_user&&<Image style={styles.avatar}
@@ -151,6 +151,10 @@ const styles = StyleSheet.create({
 	},
 	body:{
 		padding:10
+	},
+	title:{
+		fontSize:22,
+		color:'#000'
 	},
 	discript:{
 		marginTop:10,

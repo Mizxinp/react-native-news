@@ -30,7 +30,6 @@ export default function onAction(state=initState,action){
 				...state,
 				[action.tagName]:{
 					...[action.tagName],
-					items:action.items,	//原始数据
 					projectModels:action.projectModels,	//此次需要展示的数据
 					isLoading:false,
 					hideLoadingMore:false,
@@ -42,7 +41,7 @@ export default function onAction(state=initState,action){
 				...state,
 				[action.tagName]:{
 					...state[action.tagName],
-					items:action.items,
+					items:action.projectModels,
 					isLoading:true,
 					hideLoadingMore:true,
 				}
@@ -52,7 +51,7 @@ export default function onAction(state=initState,action){
 				...state,
 				[action.tagName]:{
 					...state[action.tagName],
-					items:action.items,
+					items:action.projectModels,
 					isLoading:false
 				}
 			}

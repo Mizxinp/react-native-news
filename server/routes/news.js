@@ -9,8 +9,10 @@ let News = require('../models/news')
 	items:[]
 } */
 router.get('/national',function(req,res,next){
-	let tagName = req.param('tag');
-	console.log(tagName);
+	const tagName = req.param('tag');
+	const pageIndex = req.param('pageIndex');
+	const pageSize = req.param('pageSize');
+	const flag = req.param('flag');
 	// console.log(req);
 	
 	News.findOne(function(err,doc){
@@ -28,13 +30,82 @@ router.get('/national',function(req,res,next){
 					result=doc._doc[item]
 				}
 			})
-			console.log('个数',result.length);
+			// console.log('个数',result.length);
+			// flag:1表示刷新
+			/* 
 			
-			res.json({
-				status:'0',
-				msg:'success',
-				items:result
-			})
+			*/
+			let finalResult = []
+			if(pageIndex*pageSize-result.length>=pageSize){
+				finalResult = result.slice(result.length-pageSize+1,result.length)
+			}else if(pageIndex*pageSize>result.length){
+				finalResult = result.slice(pageIndex*pageSize-pageSize,result.length)
+			}else{
+				finalResult=result.slice(pageIndex*pageSize-pageSize,pageIndex*pageSize)
+			}
+			
+
+			let loadMoreResult=[]
+			if(pageIndex*pageSize>=result.length){
+				loadMoreResult=result
+			}else{
+				loadMoreResult=result.slice(0,pageIndex*pageSize)
+			}
+			
+			if(flag==1){
+				res.json({
+					status:'0',
+					msg:'success',
+					items:finalResult
+				})
+			}else{
+				res.json({
+					status:'0',
+					msg:'success',
+					items:loadMoreResult
+				})
+			}
+			
+			/* 
+
+				switch(flag){
+				case 1:
+					let finalResult = []
+					if(pageIndex*pageSize-result.length>=pageSize){
+						finalResult = result.slice(result.length-pageSize+1,result.length)
+					}else if(pageIndex*pageSize>result.length){
+						finalResult = result.slice(pageIndex*pageSize-pageSize,result.length)
+					}else{
+						finalResult=result.slice(pageIndex*pageSize-pageSize,pageIndex*pageSize)
+					}
+					res.json({
+						status:'0',
+						msg:'success',
+						items:finalResult
+					})
+					break
+				case 2:
+					let loadMoreResult=[]
+					if(pageIndex*pageSize>=result.length){
+						loadMoreResult=result
+					}else{
+						loadMoreResult=result.slice(0,pageIndex*pageSize)
+					}
+					res.json({
+						status:'0',
+						msg:'success',
+						items:loadMoreResult
+					})
+					break
+				default:
+					res.json({
+						status:'0',
+						msg:'success',
+						items:result
+					})
+			}
+
+			 */
 		}
 	})
 })

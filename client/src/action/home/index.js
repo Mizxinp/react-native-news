@@ -3,15 +3,23 @@ import DataStore from '../../expand/storage/DataStore'
 import { handleData,_projectModels } from '../ActionUtil'
 
 // 首页的action
-export function onLoadRefreshHome(tagName,url,pageSize){
-	console.log('你是谁',url);
-	
+export function onLoadRefreshHome(tagName,url){
 	return dispatch => {
 		dispatch({type:Types.HOME_REFRESH,tagName:tagName});
 		let dataStore = new DataStore();
 		dataStore.fetchData(url) //异步action与数据流
 			.then(res=>{
-				handleData(Types.HOME_REFRESH_SUCCESS,dispatch,tagName,res,pageSize)
+				console.log('rere',res);
+				
+				// handleData(Types.HOME_REFRESH_SUCCESS,dispatch,tagName,res,pageSize)
+				if(res&&res.data&&res.data.status=='0'){
+					dispatch({
+						type:Types.HOME_REFRESH_SUCCESS,
+						tagName,
+						projectModels:res.data.items,
+						pageIndex:1
+					})
+				}
 			})
 			.catch(error=>{
 				console.log('home',error);
@@ -26,30 +34,36 @@ export function onLoadRefreshHome(tagName,url,pageSize){
 }
 
 // 上拉加载更多
-export function onLoadMoreHome(tagName,pageIndex,pageSize,dataArray=[],callback){
+export function onLoadMoreHome(tagName,url,pageIndex,pageSize,callback){
 	return dispatch => {
-		setTimeout(()=>{//模拟网络请求
-			if((pageIndex-1)*pageSize >= dataArray.length){
-				if(typeof callback === 'function'){
-					callback('no more')
+		// dispatch({type:Types.HOME_REFRESH,tagName:tagName});
+		let dataStore = new DataStore();
+		dataStore.fetchData(url) 
+			.then(res=>{
+				if(res&&res.data&&res.data.status=='0'){
+					if((pageIndex-1)*pageSize >= res.data.items.length){
+						if(typeof callback === 'function'){
+							callback('no more')
+						}
+						dispatch({
+							type:Types.HOME_LOAD_MORE_FAIL,
+							error:'no more',
+							tagName,
+							pageIndex:--pageIndex,
+							projectModels:res.data.items
+						})
+					}else{
+							dispatch({
+								type:Types.HOME_LOAD_MORE_SUCCESS,
+								tagName,
+								pageIndex,
+								projectModels:res.data.items
+							})
+					}
 				}
-				dispatch({
-					type:Types.HOME_LOAD_MORE_FAIL,
-					error:'no more',
-					tagName,
-					pageIndex:--pageIndex,
-					projectModels:dataArray
-				})
-			}else{
-				let max = pageSize * pageIndex > dataArray.length ? dataArray.length : pageSize*pageIndex
-					dispatch({
-						type:Types.HOME_LOAD_MORE_SUCCESS,
-						storeName,
-						pageIndex,
-						projectModels:dataArray.slice(0, max)
-					})
-			}
-		},500)
+			})
+
+
 	}
 }
 

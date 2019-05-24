@@ -82,7 +82,7 @@ export default class DataStore{
 						 }
 					 })
 					 .then((responseData)=>{
-						 this.saveData(url,responseData);
+						//  this.saveData(url,responseData);
 						 resolve(responseData)
 					 })
 					 .catch((err)=>{

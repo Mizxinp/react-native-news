@@ -13,7 +13,6 @@ const COMMENT_URL = 'http://www.toutiao.com/api/comment/list/?group_id=636496562
 
 function insertData(data,res,content_id){
 	let result = {...data,content_id}
-	console.log(result);
 	
 	NewsDetail.create(result,createError=>{
 		if(createError){

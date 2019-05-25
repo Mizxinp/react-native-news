@@ -8,4 +8,10 @@ export default {
 	HOME_LOAD_MORE_SUCCESS:'POPULAR_LOAD_MORE_SUCCESS',	// 上拉加载更多成功
 	HOME_LOAD_MORE_FAIL:'POPULAR_LOAD_MORE_FAIL',	// 上拉加载更多失败
 	NEWS_DETAIL:'NEWS_DETAIL',		//获取新闻详情页
+	Foreign_REFRESH:'POPULAR_REFRESH',	//际取新闻刷新
+	Foreign_REFRESH_FAIL:'POPULAR_REFRESH_FAIL',	//际取新闻下拉刷新失败
+	Foreign_REFRESH_SUCCESS:'POPULAR_REFRESH_SUCCESS',	//际取新闻下拉刷新成功
+	Foreign_LOAD_MORE_SUCCESS:'POPULAR_LOAD_MORE_SUCCESS',	// 际取新闻上拉加载更多成功
+	Foreign_LOAD_MORE_FAIL:'POPULAR_LOAD_MORE_FAIL',	// 际取新闻上拉加载更多失败
+	Foreign_DETAIL:'NEWS_DETAIL',		//获国际取新闻详情页
 }

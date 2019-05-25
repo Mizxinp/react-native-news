@@ -12,7 +12,7 @@ import {changeTag} from '../util/util'
 import HomeItem from '../component/homeItem'
 import NavigationUtil from '../navigator/NavigationUtil'
 
-const BASE_URL = 'http://192.168.1.103:3000/news/national?tag='
+const BASE_URL = 'http://192.168.1.102:3000/news/national?tag='
 // const URL = `https://api.github.com/search/repositories?q=`
 const pageSize = 10;
 class HomePage extends Component{
@@ -139,7 +139,7 @@ class HomeTab extends Component{
 	// 初始化数据
 	_loadData = ( loadMore ) => {
 		const { onLoadRefreshHome } = this.props
-		const url = this.getFetchUrl(this.tagName,this.state.pageIndex)
+		const url = this.getFetchUrl(this.tagName,this.state.pageIndex,1)
 		console.log('这是url',url);
 		
 		// let store = this._store()

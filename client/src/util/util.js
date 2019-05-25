@@ -19,6 +19,23 @@ export function changeTag(type){
 	}
 }
 
+export function changeForeignTag(type){
+	switch(type){
+		case '综合':
+			return 'general';
+		case '科学':
+			return 'science';
+		case '体育':
+			return 'sports';
+		case '科技':
+			return 'technology';
+		case '娱乐':
+			return 'entertainment';
+		default:
+			return 'general'
+	}
+}
+
 /* 
 时间戳转年月日
  */

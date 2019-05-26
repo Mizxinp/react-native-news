@@ -5,6 +5,8 @@
 
 import { AsyncStorage } from 'react-native'
 
+export const FLAG_STORAGE = {flag_national: 'national', flag_foreign: 'foreign'};
+
 
 export default class DataStore{
 	/**
@@ -50,6 +52,7 @@ export default class DataStore{
 
 	// 获取本地数据
 	fetchLocalData(url){
+		console.log('获取本地数据');
 		return new Promise((resolve,reject) => {
 			AsyncStorage.getItem(url,(error,result)=>{
 				if(!error){
@@ -71,6 +74,7 @@ export default class DataStore{
 
 	// 获取网络数据
 	 fetchNetData(url){
+		 console.log('获取服务端数据');
 		 
 		 return new Promise((resolve,reject)=>{
 				 	fetch(url)

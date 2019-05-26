@@ -16,7 +16,7 @@ const COMMENT_URL = 'http://www.toutiao.com/api/comment/list/?group_id=636496562
 
 function insertData(data,res,content_id){
 	
-	let result = {...data,content_id}
+	let result = {...data,content_id,checked:false}
 	
 	NewsDetail.create(result,createError=>{
 		if(createError){
@@ -134,7 +134,7 @@ router.get('/foreign',function(req,res,next){
 						console.log(`热点新闻抓取失败 - ${err}`)
 					} else {
 					ForeignNewsDetail = getnewsContent(response)					
-						insertForeignDetai({...ForeignNewsDetail,url},res)
+						insertForeignDetai({...ForeignNewsDetail,url,checked:false},res)
 					}
 				});
 			}
@@ -148,5 +148,72 @@ router.get('/foreign',function(req,res,next){
 	
 })
 
+router.post('/editFavorite',function(req,res,next){
+	const checked = req.body.isFavorite;
+	const content_id = req.body.content_id;
+	const flag = req.body.flag;
+	console.log(checked,content_id,flag);
+	
+	switch(flag){
+		case 'national':
+			NewsDetail.update({content_id},{"checked":checked},(err,doc)=>{
+				if(err){
+					util.responseError(res,err)
+				}else if(doc){
+					util.responseSuccess(res,'')
+				}
+			})
+			break
+		case 'foreign':
+			ForeignDetail.update({url:content_id},{"checked":checked},(err,doc)=>{
+				if(err){
+					util.responseError(res,err)
+				}else if(doc){
+					util.responseSuccess(res,'')
+				}
+			})
+			break
+	}
 
+	/* if(flag=='national'){
+		NewsDetail.update({content_id},{"checked":checked},(err,doc)=>{
+			if(err){
+				util.responseError(res,err)
+			}else if(doc){
+				util.responseSuccess(res,'')
+			}
+		})
+	} */
+	
+})
+
+router.get('/collection',(req,res,next)=>{
+	console.log('进来');
+	
+	const flag = req.param('flag');
+	switch(flag){
+		case 'national':
+			NewsDetail.find({checked:true},(err,doc)=>{
+				if(err){
+					util.responseError(res,err)
+				}else if(doc){
+					util.responseSuccess(res,doc)
+				}
+			})
+			break
+		case 'foreign':
+			ForeignDetail.find({checked:true},(err,doc)=>{
+				if(err){
+					util.responseError(res,err)
+				}else if(doc){
+					util.responseSuccess(res,doc)
+				}
+			})
+			break
+		default:
+			util.responseSuccess(res,'')
+	}
+})
+
+// 6693565211103725000
 module.exports = router;

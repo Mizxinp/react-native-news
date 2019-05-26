@@ -18,11 +18,7 @@ class MyPage extends React.Component{
 		const {theme} = this.props
 		let RouteName,params = {theme}
 		switch (menu){
-			/* case MORE_MENU.Tutorial:
-				RouteName="WebViewPage";
-				params.title='教程';
-				params.url='https://coding.m.imooc.com/classindex.html?cid=89';
-				break
+			/* 
 			case MORE_MENU.About:
 				RouteName="AboutPage";
 				break
@@ -49,6 +45,11 @@ class MyPage extends React.Component{
 					const {onShowCustomThemeView} = this.props;
 					onShowCustomThemeView(true);
 					break;
+			case MORE_MENU.My_Collection:
+					RouteName="MyCollectionPage";
+					params.title='我的收藏';
+					params.theme=theme;
+					break
 		}
 		if(RouteName){
 			NavigationUtil.goPage(params,RouteName)
@@ -102,7 +103,7 @@ class MyPage extends React.Component{
 								}}/>
 					</TouchableOpacity>
 					<View style={GlobalStyles.line}/>
-					{this.getItem(MORE_MENU.Collection)}
+					{this.getItem(MORE_MENU.My_Collection)}
 					{/*趋势管理*/}
 					<Text style={styles.groupTitle}>首页管理</Text>
 					{/*自定义语言*/}

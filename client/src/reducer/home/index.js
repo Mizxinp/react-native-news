@@ -20,11 +20,9 @@ home:{
 // 设置动态store，和动态获取store(难点：storekey不固定)：使用[action.tagName]
 
 export default function onAction(state=initState,action){
-	console.log('action',action);
 	
 	switch(action.type){
 		case Types.HOME_REFRESH_SUCCESS:		//下拉刷新成功
-		console.log('state',state);
 		
 			return {
 				...state,

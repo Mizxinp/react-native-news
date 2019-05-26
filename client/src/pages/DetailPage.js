@@ -1,8 +1,9 @@
 import React ,{Component} from 'react'
-import { View,Text,ScrollView,StyleSheet,Image } from 'react-native'
+import { View,Text,ScrollView,StyleSheet,Image,TouchableOpacity } from 'react-native'
 import {connect} from 'react-redux'
 import HTMLView from 'react-native-htmlview'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 
 import NavigationBar from '../component/NavigationBar'
@@ -10,6 +11,7 @@ import backPressComponent from '../component/backPressComponent'
 import NavigationUtil from '../navigator/NavigationUtil'
 import ViewUtil from '../util/ViewUtil'
 import actions from '../action/index'
+import { FLAG_STORAGE }  from '../expand/storage/DataStore'
 
 const BASE_URL = 'http://192.168.1.102:3000/news_info/national?content_id='
 
@@ -18,8 +20,35 @@ class DetailPage extends Component{
 		super(props)
 		this.params = this.props.navigation.state.params;
 		this.backPress = new backPressComponent({backPress:()=>this.onBackPress()})
+		this.state={
+			isFavorite:false
+		}
 	}
 	componentDidMount(){
+
+		/* fetch('http://192.168.1.102:3000/news_info/editFavorite',{
+			method:'POST',
+			body:{
+				flag:'national',
+				content_id:11,
+				checked:true
+			}
+		})
+			.then((response)=>{
+				if(response.ok){
+					return response.json()
+				}else{
+					throw new Error('Network response was not ok')
+				}
+			})
+			.then((responseData)=>{
+				console.log('测试收藏结果',responseData);
+			})
+			.catch(error=>{
+				console.log('error',error);
+			}) */
+
+
 		const {contentId} = this.params
 		const {onLoadNewsDetail}=this.props
 		console.log('id',contentId);
@@ -35,6 +64,8 @@ class DetailPage extends Component{
 		return true
 	}
 	onBack = () => {
+		const { forseFresh } = this.params
+		forseFresh()
 		NavigationUtil.goBack(this.props.navigation)
 	}
 	_loadData=() =>{
@@ -43,9 +74,26 @@ class DetailPage extends Component{
 	renderRightButton() {
 		return (
 			<View style={{flexDirection: 'row'}}>
+				<TouchableOpacity
+						onPress={() => {
+							this.onFavoriteButtonClick()
+						}}>
+						<FontAwesome
+								name={this.props.detail.isFavorite?'star':'star-o'}
+								size={20}
+								style={{color: 'white', marginRight: 10}}
+						/>
+				</TouchableOpacity>
 				{ViewUtil.getShareButton(() => {})}
 			</View>
 		)
+	}
+	onFavoriteButtonClick = () => {
+		const { onEditFavorite } = this.props
+		const {contentId} = this.params
+		
+		onEditFavorite(FLAG_STORAGE.flag_national,contentId,!this.props.detail.isFavorite)
+
 	}
 	renderComment=(data) =>{
 		const {user} = data
@@ -130,16 +178,17 @@ class DetailPage extends Component{
 						/>
 						{item.comments.map(item=>this.renderComment(item))}
 				</ScrollView>
-			</View>:null
+			</View>:<Text>暂无数据</Text>
 		
 	}
 }
 
 const mapStateToProps = state=>({
-	detail:state.newsDetail
+	detail:state.newsDetail,
 })
 const mapDispatchToProps = dispatch=>({
-	onLoadNewsDetail:(content_id,url)=>dispatch(actions.onLoadNewsDetail(content_id,url))
+	onLoadNewsDetail:(content_id,url)=>dispatch(actions.onLoadNewsDetail(content_id,url)),
+	onEditFavorite:(flag,content_id,isFavorite)=>dispatch(actions.onEditFavorite(flag,content_id,isFavorite))
 })
 export default connect(mapStateToProps,mapDispatchToProps)(DetailPage)
 // export default DetailPage

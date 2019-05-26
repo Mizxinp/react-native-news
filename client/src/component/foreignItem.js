@@ -17,11 +17,11 @@ export default class ForeignItem extends Component{
 				<View style={styles.cell_container}>
 					<View style={styles.left}>
 						<Text style={styles.title}>
-								{data.item.title}
+								{data.item.title.slice(0,80)}
 						</Text>
 						<View style={styles.description}>
 							<Text style={{marginRight:15}}>
-									{data.item.source.name}
+									{data.item.source?data.item.source.name:'Ma Hii'}
 							</Text>
 							{/* <Text>
 								{data.item.comments_count}评论

@@ -3,19 +3,18 @@ import DataStore from '../../expand/storage/DataStore'
 import { handleData,_projectModels } from '../ActionUtil'
 
 // 首页的action
-export function onLoadRefreshHome(CountryName,url){
+export function onLoadRefreshHome(tagName,url){
 	return dispatch => {
-		dispatch({type:Types.Foreign_REFRESH,CountryName:CountryName});
+		dispatch({type:Types.Foreign_REFRESH,tagName:tagName});
 		let dataStore = new DataStore();
 		dataStore.fetchData(url) //异步action与数据流
 			.then(res=>{
-				console.log('rere',res);
 				
 				// handleData(Types.HOME_REFRESH_SUCCESS,dispatch,tagName,res,pageSize)
 				if(res&&res.data&&res.data.status=='0'){
 					dispatch({
 						type:Types.Foreign_REFRESH_SUCCESS,
-						CountryName,
+						tagName,
 						projectModels:res.data.items,
 						pageIndex:1
 					})
@@ -25,7 +24,7 @@ export function onLoadRefreshHome(CountryName,url){
 				console.log('home',error);
 				dispatch({
 					type:Types.Foreign_REFRESH_FAIL,
-					CountryName,
+					tagName,
 					error
 				})
 				

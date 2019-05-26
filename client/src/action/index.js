@@ -1,6 +1,7 @@
 import { onThemeChange,onShowCustomThemeView,onThemeInit } from './theme/index'
 import { onLoadRefreshHome,onLoadMoreHome,onLoadHomeFavorite } from  './home/index'
-import { onLoadNewsDetail } from './newsDetail/index'
+import { onLoadNewsDetail,onLoadForeignNewsDetail,onEditFavorite } from './newsDetail/index'
+import { onLoadFavoriteData }from './favorite/index'
 
 export default{
 	onThemeChange,	//改变主题
@@ -10,4 +11,7 @@ export default{
 	onLoadMoreHome,		//首页加载更多
 	onLoadHomeFavorite,	//获取首页中被收藏的数量
 	onLoadNewsDetail, 		//获取文章详情
+	onLoadForeignNewsDetail, // 获取国外文章详情
+	onEditFavorite,		//添加收藏
+	onLoadFavoriteData,	//获取收藏的文章列表
 }

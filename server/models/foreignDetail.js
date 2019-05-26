@@ -28,7 +28,8 @@ let ForeignDetailSchema = new Schema({
 	"logo_show_strategy": String,
 	"creator_uid": Number,
 	"content_id":Number,
-	"comments":Array
+	"comments":Array,
+	"checked":Boolean
 	
 })
 

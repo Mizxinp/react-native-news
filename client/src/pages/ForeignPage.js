@@ -82,7 +82,7 @@ class HomePage extends Component{
 		}
 		const navigationBar = <NavigationBar 
 			// titleView = {this.renderTitleView()}
-			// title={'热门'}
+			title={'国际新闻'}
 			statusBar = {statusBar}
 			style={theme.styles.navBar}
 		/>
@@ -200,7 +200,9 @@ class HomeTab extends Component{
 							onSelect={(callback)=>{
 								NavigationUtil.goPage({
 									theme,
-									ForeignUrl:data.item.url
+									ForeignUrl:data.item.url,
+									forseFresh(){
+									}
 								},'ForeignDetailPage')
 							}} 
 							theme={theme}

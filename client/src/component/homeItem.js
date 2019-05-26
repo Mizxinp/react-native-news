@@ -1,52 +1,62 @@
 import React,{Component} from 'react'
 import {Image, StyleSheet, Text, TouchableOpacity, View,} from 'react-native'
 import moment from 'moment'
+import { SwipeListView } from 'react-native-swipe-list-view';
+
 
 import NavigationUtil from '../navigator/NavigationUtil'
 
 export default class HomeItem extends Component{
+	renderItem = (data) => {
+		return <TouchableOpacity
+								onPress={()=>this.props.onSelect()}
+						>
+							<View style={styles.cell_container}>
+								<View style={styles.left}>
+									<Text style={styles.title}>
+											{data.item.title}
+									</Text>
+									<View style={styles.description}>
+										<Text style={{marginRight:15}}>
+												{data.item.source}
+										</Text>
+										<Text>
+											{data.item.comments_count}评论
+										</Text>
+										<Text>
+											{/* {moment(data.item.behot_time).format('YYYY/MM/DD')} */}
+										</Text>
+									</View>
+								</View>
+								<View style={styles.row}>
+									<Image style={{height: 80, width: 80}}
+										source={{uri: 'http:'+data.item.image_url}}
+									/>
+										{/* <View style={styles.row}>
+												<Text>Author:ddd</Text>
+												<Image style={{height: 22, width: 22}}
+																source={{uri: item.owner.avatar_url}}
+												/>
+										</View>
+										<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+												<Text>Start:</Text>
+												<Text>222</Text>
+										</View> */}
+										{/* {this._favoriteIcon()} */}
+								</View>
+							</View>
+						</TouchableOpacity>
+	}
 	render(){
 		const {data} = this.props
 		// let date = new Date(data.item.behot_time).getFullYear
 		return(
-			<TouchableOpacity
-					onPress={()=>this.props.onSelect()}
-			>
-				<View style={styles.cell_container}>
-					<View style={styles.left}>
-						<Text style={styles.title}>
-								{data.item.title}
-						</Text>
-						<View style={styles.description}>
-							<Text style={{marginRight:15}}>
-									{data.item.source}
-							</Text>
-							<Text>
-								{data.item.comments_count}评论
-							</Text>
-							<Text>
-								{/* {moment(data.item.behot_time).format('YYYY/MM/DD')} */}
-							</Text>
-						</View>
-					</View>
-					<View style={styles.row}>
-						<Image style={{height: 80, width: 80}}
-							source={{uri: 'http:'+data.item.image_url}}
-						/>
-							{/* <View style={styles.row}>
-									<Text>Author:ddd</Text>
-									<Image style={{height: 22, width: 22}}
-													source={{uri: item.owner.avatar_url}}
-									/>
-							</View>
-							<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-									<Text>Start:</Text>
-									<Text>222</Text>
-							</View> */}
-							{/* {this._favoriteIcon()} */}
-					</View>
-				</View>
-			</TouchableOpacity>
+			<View>
+
+				{this.renderItem(data)}
+			</View>
+			
+			
 		)
 	}
 }
@@ -94,3 +104,17 @@ const styles = StyleSheet.create({
 	}
 }
 );
+
+{/* <SwipeListView
+            useFlatList
+            data={data}
+            renderItem={ (data, rowMap) => this.renderItem(data)}
+            renderHiddenItem={ (data, rowMap) => (
+                <View >
+                    <Text>Left</Text>
+                    <Text>Right</Text>
+                </View>
+            )}
+            leftOpenValue={75}
+            rightOpenValue={-75}
+        /> */}

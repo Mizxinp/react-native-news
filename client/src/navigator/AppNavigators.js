@@ -10,7 +10,7 @@ import WelcomePage from '../pages/WelcomePage';
 import MainPage from '../pages/MainPage';
 import DetailPage from '../pages/DetailPage';
 import ForeignDetailPage from '../pages/ForeignDetailPage'
-
+import MyCollectionPage from '../pages/MyCollectionPage'
 export const rootCom = 'Init'	//根路由
 
 const InitNavigator = createStackNavigator({
@@ -41,6 +41,12 @@ const MainNavigator = createStackNavigator({
 			header:null
 		}
 	},
+	MyCollectionPage:{
+		screen:MyCollectionPage,
+		navigationOptions:{
+			header:null
+		}
+	}
 },/* {
 	defaultNavigationOptions: {
 		header: null,// 可以通过将header设为null 来禁用StackNavigator的Navigation Bar

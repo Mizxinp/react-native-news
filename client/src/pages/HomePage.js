@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Text,View,StyleSheet,Button,TouchableOpacity,TextInput,FlatList,RefreshControl,ActivityIndicator} from 'react-native'
+import { Text,View,StyleSheet,AsyncStorage,Button,TouchableOpacity,TextInput,FlatList,RefreshControl,ActivityIndicator} from 'react-native'
 import { createMaterialTopTabNavigator,createAppContainer } from 'react-navigation'
 import ViewPager from "@react-native-community/viewpager";
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -23,7 +23,7 @@ class HomePage extends Component{
 		// this.props.onThemeChange('#666')
 	}
 	componentDidMount(){
-		// AsyncStorage.clear()
+		AsyncStorage.clear()
 		/* fetch(BASE_URL)
 			.then((response)=>{
 				if(response.ok){
@@ -97,7 +97,7 @@ class HomePage extends Component{
 		}
 		const navigationBar = <NavigationBar 
 			// titleView = {this.renderTitleView()}
-			// title={'热门'}
+			title={'国内新闻'}
 			statusBar = {statusBar}
 			style={theme.styles.navBar}
 		/>
@@ -140,7 +140,6 @@ class HomeTab extends Component{
 	_loadData = ( loadMore ) => {
 		const { onLoadRefreshHome } = this.props
 		const url = this.getFetchUrl(this.tagName,this.state.pageIndex,1)
-		console.log('这是url',url);
 		
 		// let store = this._store()
 		// if(loadMore){
@@ -163,7 +162,6 @@ class HomeTab extends Component{
 			this.setState(preState=>{
 				return {pageIndex:preState.pageIndex+1}
 			},()=>{
-				console.log('刷星之后的',this.state.pageIndex);
 				
 				const url = this.getFetchUrl(this.tagName,this.state.pageIndex,flag)
 				onLoadRefreshHome(this.tagName,url,pageSize)
@@ -172,7 +170,6 @@ class HomeTab extends Component{
 			this.setState(preState=>{
 				return {loadMorePageIndex:preState.loadMorePageIndex+1}
 			},()=>{
-				console.log('刷星之后的',this.state.pageIndex);
 				// storeName,pageIndex,pageSize,callback
 				const url = this.getFetchUrl(this.tagName,this.state.loadMorePageIndex,flag)
 				onLoadMoreHome(this.tagName,url,this.state.loadMorePageIndex,pageSize,callback=>{
@@ -185,7 +182,6 @@ class HomeTab extends Component{
 	//获取请求路径
 	getFetchUrl = (key,pageIndex,flag) => {
 		let tag = changeTag(key)
-		console.log('标签',tag);
 		
 		return BASE_URL+tag+`&pageIndex=${pageIndex}&pageSize=10&flag=${flag}`
 	}
@@ -204,19 +200,20 @@ class HomeTab extends Component{
 						hideLoadingMore: true,//默认隐藏加载更多
 				}
 		}
-		console.log('获取到的数据;',store);
+		// console.log('获取到的数据;',store);
 		return store;
 	}
 	renderItem = (data) => {
 		const {theme} = this.props
 		// console.log('dadd',data);
-		
 		return <HomeItem 
 							data={data}
 							onSelect={(callback)=>{
 								NavigationUtil.goPage({
 									theme,
-									contentId:data.item.item_id
+									contentId:data.item.item_id,
+									forseFresh(){
+									}
 								},'DetailPage')
 							}} 
 							theme={theme}
@@ -232,7 +229,6 @@ class HomeTab extends Component{
 			</View>
 	}
 	render(){
-		console.log('ha',this.props);
 		const {tabLabel,theme} = this.props
 		let store = this._store()
 		return(
@@ -256,7 +252,7 @@ class HomeTab extends Component{
 					onEndReached={() => {
 						setTimeout(() => {
 								if (this.canLoadMore) {//fix 滚动时两次调用onEndReached https://github.com/facebook/react-native/issues/14015
-									console.log('触发2');
+									// console.log('触发2');
 									
 										this._reflesh(2);
 										this.canLoadMore = false;
@@ -265,7 +261,7 @@ class HomeTab extends Component{
 					}}
 					onEndReachedThreshold={0.5}
 					onContentSizeChange={() => {
-						console.log('触发1');						
+						// console.log('触发1');						
 						this.canLoadMore = true // flatview内部组件布局完成以后会调用这个方法
 				}}
 				/>

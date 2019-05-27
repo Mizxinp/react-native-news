@@ -6,12 +6,14 @@ import {
 import { connect } from 'react-redux'
 import {createReactNavigationReduxMiddleware,  createReduxContainer} from 'react-navigation-redux-helpers';
 
+export const rootCom = 'Init'	//根路由
 import WelcomePage from '../pages/WelcomePage';
 import MainPage from '../pages/MainPage';
 import DetailPage from '../pages/DetailPage';
 import ForeignDetailPage from '../pages/ForeignDetailPage'
 import MyCollectionPage from '../pages/MyCollectionPage'
-export const rootCom = 'Init'	//根路由
+import LoginPage from '../pages/LoginPage'
+import AboutMePage from '../pages/AboutMePage'
 
 const InitNavigator = createStackNavigator({
 	WelcomePage: {
@@ -43,6 +45,18 @@ const MainNavigator = createStackNavigator({
 	},
 	MyCollectionPage:{
 		screen:MyCollectionPage,
+		navigationOptions:{
+			header:null
+		}
+	},
+	LoginPage:{
+		screen:LoginPage,
+		navigationOptions:{
+			header:null
+		}
+	},
+	AboutMePage:{
+		screen:AboutMePage,
 		navigationOptions:{
 			header:null
 		}

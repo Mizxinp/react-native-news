@@ -12,7 +12,7 @@ export const MORE_MENU = {
 	Sort_Key: {name: '标签排序', Icons: MaterialCommunityIcons, icon: 'sort'},
 	Remove_Key: {name: '标签移除', Icons: Ionicons, icon: 'md-remove'},
 	About_Author: {name: '关于作者', Icons: Octicons, icon: 'smiley'},
-	About: {name: '关于', Icons: Ionicons, icon: 'logo-github'},
+	Login: {name: '登录', Icons: Ionicons, icon: 'logo-github'},
 	My_Collection: {name: '我的收藏', Icons: MaterialIcons, icon: 'collections'},
 	Feedback: {name: '反馈', Icons: MaterialIcons, icon: 'feedback'},
 	Share: {name: '分享', Icons: Ionicons, icon: 'md-share'},

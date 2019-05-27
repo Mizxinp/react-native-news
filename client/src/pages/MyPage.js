@@ -14,17 +14,17 @@ import ViewUtil from '../util/ViewUtil'
 
 
 class MyPage extends React.Component{
+	constructor(props){
+		super(props)
+		this.state={
+			login_visible:false
+		}
+	}
 	onClick = (menu) => {
 		const {theme} = this.props
 		let RouteName,params = {theme}
 		switch (menu){
 			/* 
-			case MORE_MENU.About:
-				RouteName="AboutPage";
-				break
-			case MORE_MENU.About_Author:
-				RouteName = 'AboutMePage';
-				break;
 			case MORE_MENU.Custom_Key:
 			case MORE_MENU.Custom_Language:
 			case MORE_MENU.Remove_Key:
@@ -50,6 +50,16 @@ class MyPage extends React.Component{
 					params.title='我的收藏';
 					params.theme=theme;
 					break
+			case MORE_MENU.Login:
+					params.forceReflesh=()=>{
+						this.setState({login_visible:!this.state.login_visible})
+					}
+					RouteName="LoginPage";
+					break
+			case MORE_MENU.About_Author:
+					RouteName = 'AboutMePage';
+					break;
+			
 		}
 		if(RouteName){
 			NavigationUtil.goPage(params,RouteName)
@@ -59,10 +69,19 @@ class MyPage extends React.Component{
 		const { theme } = this.props
 		return ViewUtil.getMenuItem(() => this.onClick(menu), menu, theme.themeColor);
 	}
+	handleLogin = () => {
+		const {user} = this.props
+		if(user.data){
+			console.log('已经登录了');
+			this.onClick(MORE_MENU.About_Author)
+		}else{
+			this.onClick(MORE_MENU.Login)
+		}
+	}
 	render(){
 		console.log('props',this.props);
 		
-		const {theme} = this.props
+		const {theme,user} = this.props
 		const statusBar = {
 			backgroundColor:theme.themeColor,
 			barStyle:'light-content',
@@ -80,18 +99,18 @@ class MyPage extends React.Component{
 				<ScrollView>
 					<TouchableOpacity
 						style={styles.item}
-						onPress={() => this.onClick(MORE_MENU.About)}
+						onPress={this.handleLogin}
 					>
 						<View style={styles.about_left}>
 								<Ionicons
-										name={MORE_MENU.About.icon}
+										name={MORE_MENU.Login.icon}
 										size={40}
 										style={{
 												marginRight: 10,
 												color: theme.themeColor,
 										}}
 								/>
-								<Text>登录 / 注册</Text>
+								{user.data?<Text>{user.data.username}</Text>:<Text>登录 / 注册</Text>}
 						</View>
 						<Ionicons
 								name={'ios-arrow-forward'}
@@ -143,10 +162,12 @@ class MyPage extends React.Component{
 
 const mapStateToProps = state => ({
 	theme: state.theme.theme,
+	user:state.user
 });
 
 const mapDispatchToProps = dispatch => ({
 	onShowCustomThemeView: (show) => dispatch(actions.onShowCustomThemeView(show)),
+	onLogin:(username,password,type)=>dispatch(actions.onLogin(username,password,type))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyPage);

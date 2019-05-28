@@ -23,15 +23,19 @@ const _filter = {password:0,__v:0}
 
 //注册
 router.post('/register',function(req,res){
-  const {username,password,type} = req.query;
-  console.log('传过来的参数',req.query);
+  const {username,password,type} = req.body;
+  console.log('传过来的参数',req.body);
   
 	User.findOne({username},function(err,doc){
+		console.log('doc',doc);
+		
 		if(doc){
+			console.log('进来用户名重复');
+			
 			return res.json({
-				status:'0',
+				status:'1',
         msg:'用户名重复',
-        result:doc
+        result:''
 			})
 		}
 		new User({username,password,type}).save(function(err,doc){
@@ -40,7 +44,8 @@ router.post('/register',function(req,res){
 			}
 			const {username, type, _id} = doc
 			res.cookie('user_id', _id)
-			return res.json({status:'',result:{username, type, _id}})
+			return util.responseSuccess(res,{username, type, _id})
+			// return res.json({status:'',result:{username, type, _id}})
 		})
 		
 	})

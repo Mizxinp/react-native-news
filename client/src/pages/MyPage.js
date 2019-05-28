@@ -17,7 +17,8 @@ class MyPage extends React.Component{
 	constructor(props){
 		super(props)
 		this.state={
-			login_visible:false
+			login_visible:false,
+			register_visible:false
 		}
 	}
 	onClick = (menu) => {
@@ -56,6 +57,14 @@ class MyPage extends React.Component{
 					}
 					RouteName="LoginPage";
 					break
+			case MORE_MENU.Register:
+					params.reflesh=()=>{
+						console.log('回调');
+						
+						this.setState({login_visible:!this.state.login_visible})
+					}
+					RouteName="RegisterPage";
+					break
 			case MORE_MENU.About_Author:
 					RouteName = 'AboutMePage';
 					break;
@@ -78,6 +87,21 @@ class MyPage extends React.Component{
 			this.onClick(MORE_MENU.Login)
 		}
 	}
+	handleLogout = () => {
+		const { onLogout } = this.props;
+		onLogout()
+	}
+	
+	toRegister = () => {
+		NavigationUtil.goPage({
+			forceReflesh(){
+				console.log('进入回调');
+				this.setState({register_visible:!this.state.register_visible})
+				// this.setState({register_visible:!this.state.register_visible})
+			}
+		},'RegisterPage')
+	}
+	// toLogin = () =
 	render(){
 		console.log('props',this.props);
 		
@@ -97,6 +121,7 @@ class MyPage extends React.Component{
 			<View style={GlobalStyles.root_container}>
 				{navigationBar}
 				<ScrollView>
+					{user.data?
 					<TouchableOpacity
 						style={styles.item}
 						onPress={this.handleLogin}
@@ -120,7 +145,16 @@ class MyPage extends React.Component{
 										alignSelf: 'center',
 										color:theme.themeColor,
 								}}/>
+					</TouchableOpacity>:
+					<TouchableOpacity 
+						style={styles.unLoginWrap}
+						onPress={this.handleLogin}
+					>
+						<View style={styles.unLogin} >
+							<Text style={styles.textLogin}>登录</Text>
+						</View>
 					</TouchableOpacity>
+					}
 					<View style={GlobalStyles.line}/>
 					{this.getItem(MORE_MENU.My_Collection)}
 					{/*趋势管理*/}
@@ -153,6 +187,23 @@ class MyPage extends React.Component{
 					{/*反馈*/}
 					{this.getItem(MORE_MENU.Feedback)}
 					<View style={GlobalStyles.line}/>
+					{
+						user.data?
+						<View style={{marginTop:10}}>
+							<Button
+								onPress={this.handleLogout}
+								title="退出登录"
+								color={theme.themeColor}
+							/>
+						</View>:
+						<View style={{marginTop:10}}>
+							<Button
+								onPress={()=>this.onClick(MORE_MENU.Register)}
+								title="注册"
+								color={theme.themeColor}
+							/>
+						</View>
+					}
 					{/* {this.getItem(MORE_MENU.CodePush)} */}
 				</ScrollView>
 			</View>
@@ -167,7 +218,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	onShowCustomThemeView: (show) => dispatch(actions.onShowCustomThemeView(show)),
-	onLogin:(username,password,type)=>dispatch(actions.onLogin(username,password,type))
+	onLogin:(username,password,type)=>dispatch(actions.onLogin(username,password,type)),
+	onLogout:()=>dispatch(actions.onLogout())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyPage);
@@ -195,6 +247,23 @@ const styles = StyleSheet.create({
 			marginBottom: 5,
 			fontSize: 12,
 			color: 'gray'
+	},
+	unLoginWrap:{
+		justifyContent:'center',
+		alignItems:'center'
+	},
+	unLogin:{
+		width:80,
+		height:80,
+		borderRadius:40,
+		backgroundColor:'red',
+		marginTop:10,
+		marginBottom:10,
+		justifyContent:'center',
+		alignItems:'center'
+	},
+	textLogin:{
+		color:'#fff'
 	}
 })
 

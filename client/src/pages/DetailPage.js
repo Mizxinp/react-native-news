@@ -12,8 +12,10 @@ import NavigationUtil from '../navigator/NavigationUtil'
 import ViewUtil from '../util/ViewUtil'
 import actions from '../action/index'
 import { FLAG_STORAGE }  from '../expand/storage/DataStore'
+import Api from '../expand/api/api'
 
-const BASE_URL = 'http://192.168.1.102:3000/news_info/national?content_id='
+const BASE_URL = Api.detailUrl
+// const BASE_URL = 'http://192.168.1.103:3000/news_info/national?content_id='
 
 class DetailPage extends Component{
 	constructor(props){

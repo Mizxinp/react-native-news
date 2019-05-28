@@ -14,6 +14,8 @@ import ForeignDetailPage from '../pages/ForeignDetailPage'
 import MyCollectionPage from '../pages/MyCollectionPage'
 import LoginPage from '../pages/LoginPage'
 import AboutMePage from '../pages/AboutMePage'
+import RegisterPage from '../pages/RegisterPage'
+import MyPage from '../pages/MyPage'
 
 const InitNavigator = createStackNavigator({
 	WelcomePage: {
@@ -55,8 +57,20 @@ const MainNavigator = createStackNavigator({
 			header:null
 		}
 	},
+	RegisterPage:{
+		screen:RegisterPage,
+		navigationOptions:{
+			header:null
+		}
+	},
 	AboutMePage:{
 		screen:AboutMePage,
+		navigationOptions:{
+			header:null
+		}
+	},
+	MyPage:{
+		screen:MyPage,
 		navigationOptions:{
 			header:null
 		}

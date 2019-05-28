@@ -11,18 +11,21 @@ import NavigationUtil from '../navigator/NavigationUtil'
 import actions from '../action/index'
 import Api from '../expand/api/api'
 
-class LoginPage extends Component{
+class RegisterPage extends Component{
 	constructor(props){
 		super(props)
 		this.backPress = new backPressComponent({backPress:()=>this.onBackPress()})
 		
 		this.params = this.props.navigation.state.params;
+		console.log('参数',this.params);
 		
 		this.state={
 			username:'',
 			password:'',
+			confirmPassword:'',
+			errorMsg:'',
 			error_visible:false,
-			button_visible:false,
+			button_visible:false
 		}
 	}
 	
@@ -54,26 +57,34 @@ class LoginPage extends Component{
 					</TouchableOpacity>
 	}
 
-	handleLogin = () => {
-		const {username,password} = this.state
-		const { forceReflesh } = this.params
-		
-		const {onLogin} = this.props
-		onLogin(username,password,'user',()=>{
-			forceReflesh()
+	handleRegister = () => {
+		const {username,password,confirmPassword} = this.state
+		const { reflesh } = this.params
+		const {onRegister} = this.props
+		if(confirmPassword!==password){
+			this.setState({
+				error_visible:true,
+				errorMsg:'两次输入的密码不一致'
+			})
+			return
+		}
+
+		onRegister(username,password,'user',()=>{
+			reflesh()
 			this.props.navigation.goBack(null)
-		},()=>{this.setState({error_visible:true})})
+		},()=>{this.setState({
+			error_visible:true,
+			errorMsg:'用户名已存在'
+		})})
 	}
 
-	toRegister = () => {
-		NavigationUtil.goPage({
-			
-		},'RegisterPage')
+	toLogin = () => {
+		NavigationUtil.goPage({},'LoginPage')
 	}
 
 	inputChange = (value,type) => {
 		this.setState({[type]:value,error_visible:false},()=>{
-			if(this.state.username&&this.state.password){
+			if(this.state.username&&this.state.password&&this.state.confirmPassword){
 				this.setState({button_visible:true})
 			}else{
 				this.setState({button_visible:false})
@@ -82,9 +93,9 @@ class LoginPage extends Component{
 	}
 
 	render(){
-		// console.log('login',this.props);
+		console.log('regisprops',this.props);
 		const {theme} = this.props
-		const {button_visible} = this.state
+		const {button_visible,error_visible,errorMsg} = this.state
 		const statusBar = {
 			backgroundColor:'transparent',
 			barStyle:'light-content',
@@ -109,9 +120,7 @@ class LoginPage extends Component{
 					}
 					errorStyle={{ color: 'red' }}
 					leftIconContainerStyle={{left:-20}}
-					onChangeText={(value)=>{
-						this.inputChange(value,'username')
-					}}
+					onChangeText={(value)=>{this.inputChange(value,'username')}}
 				/>
 				<Input
 					placeholder='密码'
@@ -122,27 +131,41 @@ class LoginPage extends Component{
 							color='black'
 						/>
 					}
+					inputStyle={{marginTop:20}}
 					secureTextEntry={true}
 					leftIconContainerStyle={{left:-20}}
-					onChangeText={(value)=>{
-						this.inputChange(value,'password')
-					}}
+					onChangeText={(value)=>{this.inputChange(value,'password')}}
 					password={true}
 				/>
-				{this.state.error_visible?<Text style={styles.errorMessage}>用户名或密码错误</Text>:<Text></Text>}
+				<Input
+					placeholder='确认密码'
+					leftIcon={
+						<AntDesign
+							name='lock1'
+							size={24}
+							color='black'
+						/>
+					}
+					inputStyle={{marginTop:20}}
+					secureTextEntry={true}
+					leftIconContainerStyle={{left:-20}}
+					onChangeText={(value)=>{this.inputChange(value,'confirmPassword')}}
+					password={true}
+				/>
+				{error_visible?<Text style={styles.errorMessage}>{errorMsg}</Text>:<Text></Text>}
 				<View style={styles.login}>
 					<Button
-						onPress={this.handleLogin}
-						title='登录'
+						onPress={this.handleRegister}
+						title='注册'
 						color={theme.themeColor}
 						disabled={button_visible?false:true}
 					/>
 				</View>
 				{/* <TouchableOpacity 
 					style={styles.register}
-					onPress={this.toRegister}
+					onPress={this.toLogin}
 				>
-					<Text>去注册</Text>
+					<Text>去登录</Text>
 				</TouchableOpacity> */}
 			</View>
 		)
@@ -154,15 +177,14 @@ const mapStateToProps = state=>({
 	theme: state.theme.theme,
 })
 const mapDispatchToProps = dispatch=>({
-	onLogin:(username,password,type,successCallback,errorCallback)=>dispatch(actions.onLogin(username,password,type,successCallback,errorCallback))
+	onRegister:(username,password,type,successCallback,errorCallback)=>dispatch(actions.onRegister(username,password,type,successCallback,errorCallback))
 })
 
-export default connect(mapStateToProps,mapDispatchToProps)(LoginPage)
+export default connect(mapStateToProps,mapDispatchToProps)(RegisterPage)
 
 const styles = StyleSheet.create({
 	login:{
-		marginTop:50,
-		padding:0
+		marginTop:50
 	},
 	register:{
 		marginTop:20,

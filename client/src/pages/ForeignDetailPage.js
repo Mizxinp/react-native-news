@@ -10,15 +10,16 @@ import actions from '../action/index'
 import ViewUtil from '../util/ViewUtil'
 import NavigationBar from '../component/NavigationBar'
 import { FLAG_STORAGE }  from '../expand/storage/DataStore'
+import Api from '../expand/api/api'
 
-const BAST_URL = 'http://192.168.1.102:3000/news_info/foreign?url='
+const BAST_URL = Api.foreignDetailUrl
+// const BAST_URL = 'http://192.168.1.103:3000/news_info/foreign?url='
 
 class ForeignDetailPage extends Component{
 	constructor(props){
 		super(props)
 		this.params = this.props.navigation.state.params;
 		this.backPress = new backPressComponent({backPress:()=>this.onBackPress()})
-
 	}
 	componentDidMount(){
 		this.backPress.componentDidMount()

@@ -11,9 +11,10 @@ import NavigationBar from '../component/NavigationBar'
 import {changeTag} from '../util/util'
 import HomeItem from '../component/homeItem'
 import NavigationUtil from '../navigator/NavigationUtil'
+import Api from '../expand/api/api'
 
-const BASE_URL = 'http://192.168.1.102:3000/news/national?tag='
-// const URL = `https://api.github.com/search/repositories?q=`
+const BASE_URL = Api.nationalURL
+
 const pageSize = 10;
 class HomePage extends Component{
 	constructor(props){

@@ -14,13 +14,19 @@ export default function onAction(state=initState,action){
 				...state,
 				data:action.data.result
 			}
-		case Types.USER_LOGIN_SUCCESS:
+		case Types.USER_LOGIN_FAIL:
 			return{
 				...state,
 				error:action.error
 			}
+		case Types.USER_LOGOUT:
+			return {...initState}
+		case Types.USER_REGISTER_SUCCESS:
+			return{
+				...state,
+				data:action.data.result
+			}
 		default:
 			return state
-
 	}
 }

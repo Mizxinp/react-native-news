@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Text,View,StyleSheet,AsyncStorage,Button,TouchableOpacity,TextInput,FlatList,RefreshControl,ActivityIndicator} from 'react-native'
+import { Text,View,StyleSheet,AsyncStorage,Platform,Button,StatusBar,TouchableOpacity,TextInput,FlatList,RefreshControl,ActivityIndicator} from 'react-native'
 import { createMaterialTopTabNavigator,createAppContainer } from 'react-navigation'
 import ViewPager from "@react-native-community/viewpager";
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -12,6 +12,8 @@ import {changeTag} from '../util/util'
 import HomeItem from '../component/homeItem'
 import NavigationUtil from '../navigator/NavigationUtil'
 import Api from '../expand/api/api'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import GlobalStyles from '../assets/styles/GlobalStyles'
 
 const BASE_URL = Api.nationalURL
 
@@ -20,6 +22,7 @@ class HomePage extends Component{
 	constructor(props){
 		super(props)
 		this.tabNames=['推荐','热点','科技','社会','娱乐']
+		this.searchKey
 		// this.tabNames=['all','java','react']
 		// this.props.onThemeChange('#666')
 	}
@@ -58,18 +61,63 @@ class HomePage extends Component{
 	}
 
 	renderTitleView = () => {
-		return <View>
-						<TouchableOpacity>
-							<View>
-							<TextInput
-								style={styles.searchStyle}
-								// onChangeText={(text) => this.setState({text})}
-								// value={this.state.text}
-							></TextInput>
-							</View>
-						</TouchableOpacity>
-		</View>
+		return <TextInput
+							ref="input"
+							placeholder={'请输入'}
+							onChangeText={text => this.inputKey = text}
+							style={styles.textInput}
+					/>
 	}
+
+	renderRightButton = () => {
+		const {theme} = this.props;
+		return <TouchableOpacity
+				onPress={() => {
+						// AnalyticsUtil.track("SearchButtonClick");
+						console.log('点击了');
+						
+						NavigationUtil.goPage({theme,searchKey:this.searchKey}, 'SearchPage')
+				}}
+		>
+				<View style={{padding: 5, marginRight: 8}}>
+						<Ionicons
+								name={'ios-search'}
+								size={24}
+								style={{
+										marginRight: 8,
+										alignSelf: 'center',
+										color: 'white',
+								}}/>
+				</View>
+		</TouchableOpacity>
+	}
+
+	renderNavBar() {
+		const {theme} = this.props;
+		// const {showText, inputKey} = this.props.search;
+		// const placeholder = inputKey || "请输入";
+		// let backButton = ViewUtil.getLeftBackButton(() => this.onBackPress());
+		let inputView = <TextInput
+				ref="input"
+				placeholder={'请输入'}
+				onChangeText={text => this.searchKey = text}
+				// value="华为"
+				style={styles.textInput}
+		>
+		</TextInput>;
+		let rightButton = this.renderRightButton()
+				
+		return <View style={{
+				backgroundColor: theme.themeColor,
+				flexDirection: 'row',
+				alignItems: 'center',
+				height: (Platform.OS === 'ios') ? GlobalStyles.nav_bar_height_ios : GlobalStyles.nav_bar_height_android,
+		}}>
+				{inputView}
+				{rightButton}
+		</View>
+}
+
 	render(){
 		const {theme} = this.props
 		const TabNavigation = createAppContainer(createMaterialTopTabNavigator(
@@ -88,24 +136,17 @@ class HomePage extends Component{
 					indicatorStyle:styles.indicatorStyle,
 					labelStyle:styles.labelStyle
 				},
-				lazy:true
+				// lazy:true
 			}
 		))
+		
+		let statusBar = <StatusBar backgroundColor={theme.themeColor}/>
 
-		const statusBar = {
-			backgroundColor:theme.themeColor,
-			barStyle:'light-content',
-		}
-		const navigationBar = <NavigationBar 
-			// titleView = {this.renderTitleView()}
-			title={'国内新闻'}
-			statusBar = {statusBar}
-			style={theme.styles.navBar}
-		/>
 
 		return(
 			<View style={styles.container}>
-				{navigationBar}
+				{statusBar}
+				{this.renderNavBar()}
 				{TabNavigation&&<TabNavigation />}
 			</View>
 	
@@ -141,18 +182,6 @@ class HomeTab extends Component{
 	_loadData = ( loadMore ) => {
 		const { onLoadRefreshHome } = this.props
 		const url = this.getFetchUrl(this.tagName,this.state.pageIndex,1)
-		
-		// let store = this._store()
-		// if(loadMore){
-		// 	onLoadMorePopular(this.storeName,++store.pageIndex,pageSize,store.items,favoriteDao,callback=>{
-		// 		this.refs.toast.show('没有更多了')
-		// 	})
-		// }else if(freshFavorite){
-		// 	onFlushPopularFavorite(this.storeName, store.pageIndex, pageSize, store.items, favoriteDao);
-		// 	this.isFavoriteChanged = false;
-		// }else{
-		// 	onLoadRefreshPopular(this.storeName,url,pageSize,favoriteDao)
-		// }
 		onLoadRefreshHome(this.tagName,url,pageSize)
 		
 	}
@@ -307,20 +336,19 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	indicator: {
-			// color: 'red',
 			margin: 10
 	},
-	searchStyle:{
+	textInput:{
 		flex: 1,
-		height: 36,
-		borderWidth: 0,
+		height: 35,
+		borderWidth: 1,
 		borderColor: "white",
 		alignSelf: 'center',
 		paddingLeft: 5,
 		marginRight: 10,
-		marginLeft: 5,
+		marginLeft: 20,
 		borderRadius: 3,
-		opacity: 0.7,
-		color: 'white'
-	}
+		backgroundColor:'white',
+		width:'100%',
+	},
 })

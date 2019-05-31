@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Text,View,TouchableOpacity,Button,StyleSheet,TextInput} from 'react-native'
+import {Text,View,TouchableOpacity,Button,StyleSheet,TextInput,AsyncStorage} from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';

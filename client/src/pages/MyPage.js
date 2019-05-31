@@ -1,5 +1,5 @@
 import React from 'react'
-import { View,Text,Button,StyleSheet,TouchableOpacity,ScrollView } from 'react-native'
+import { View,Text,Button,StyleSheet,TouchableOpacity,ScrollView,AsyncStorage } from 'react-native'
 import NavigationUtil from '../navigator/NavigationUtil'
 import  Ionicons  from 'react-native-vector-icons/Ionicons'
 import  EvilIcons  from 'react-native-vector-icons/EvilIcons'
@@ -20,6 +20,10 @@ class MyPage extends React.Component{
 			login_visible:false,
 			register_visible:false
 		}
+	}
+	componentDidMount(){
+		console.log('执行了生命周期');
+		
 	}
 	onClick = (menu) => {
 		const {theme} = this.props
@@ -78,6 +82,18 @@ class MyPage extends React.Component{
 		const { theme } = this.props
 		return ViewUtil.getMenuItem(() => this.onClick(menu), menu, theme.themeColor);
 	}
+	getCollectionItem = (menu) => {
+		const { theme } = this.props
+		return ViewUtil.getMenuItem(() => this.toMyCollection(menu), menu, theme.themeColor);
+	}
+	toMyCollection = () => {
+		const {user} = this.props
+		if(user.data){
+			this.onClick(MORE_MENU.My_Collection)
+		}else{
+			this.onClick(MORE_MENU.Login)
+		}
+	}
 	handleLogin = () => {
 		const {user} = this.props
 		if(user.data){
@@ -104,6 +120,12 @@ class MyPage extends React.Component{
 	// toLogin = () =
 	render(){
 		console.log('props',this.props);
+		// console.log('获取持久化数据',user_id);
+		// AsyncStorage.getItem('user',(err,result)=>{
+		// 	if(!err){
+		// 		console.log('获取用户数据',result);	
+		// 	}
+		// })
 		
 		const {theme,user} = this.props
 		const statusBar = {
@@ -117,6 +139,15 @@ class MyPage extends React.Component{
 			// leftButton={this.getLeftButten()}
 			// rightButton={this.getRightButten()}
 		/>
+
+		// let userData = {}
+		// AsyncStorage.getItem('user',(err,result)=>{
+		// 	if(!err){
+		// 		console.log('获取用户数据',result);	
+		// 		userData = result
+		// 	}
+		// })
+
 		return(
 			<View style={GlobalStyles.root_container}>
 				{navigationBar}
@@ -135,7 +166,8 @@ class MyPage extends React.Component{
 												color: theme.themeColor,
 										}}
 								/>
-								{user.data?<Text>{user.data.username}</Text>:<Text>登录 / 注册</Text>}
+								{/* {userData.username} */}
+								<Text>{user.data.username}</Text>
 						</View>
 						<Ionicons
 								name={'ios-arrow-forward'}
@@ -156,7 +188,7 @@ class MyPage extends React.Component{
 					</TouchableOpacity>
 					}
 					<View style={GlobalStyles.line}/>
-					{this.getItem(MORE_MENU.My_Collection)}
+					{this.getCollectionItem(MORE_MENU.My_Collection)}
 					{/*趋势管理*/}
 					<Text style={styles.groupTitle}>首页管理</Text>
 					{/*自定义语言*/}

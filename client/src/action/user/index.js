@@ -1,5 +1,6 @@
 import Types from '../types'
 import Api from '../../expand/api/api'
+import { AsyncStorage } from 'react-native'
 
 export function onLogin(username,password,type='user',successCallback,errorCallback){
 	let params = {
@@ -26,6 +27,11 @@ export function onLogin(username,password,type='user',successCallback,errorCallb
 			.then(res=>{
 				// console.log('服务端获取到的数据',res);
 				if(res&&res.status=='0'){
+					// AsyncStorage.setItem('user',JSON.stringify(res.result),(err,result)=>{
+					// 	if(!err){
+					// 		console.log('存储成功');
+					// 	}
+					// })
 					dispatch({type:Types.USER_LOGIN_SUCCESS,data:res})
 					successCallback()
 				}else{
@@ -42,6 +48,11 @@ export function onLogin(username,password,type='user',successCallback,errorCallb
 
 export function onLogout(){
 	return dispatch=>{
+		// AsyncStorage.removeItem('user',(err,result)=>{
+		// 	if(!err){
+		// 		console.log('删除用户数据成功');
+		// 	}
+		// })
 		dispatch({type:Types.USER_LOGOUT})
 	}
 }
@@ -71,6 +82,12 @@ export function onRegister(username,password,type='user',successCallback,errorCa
 			.then(res=>{
 				console.log('服务端获取到的数据',res);
 				if(res&&res.status=='0'){
+					AsyncStorage.setItem('user',res.result,(err,result)=>{
+						if(!err){
+							console.log('存储成功');
+							
+						}
+					})
 					dispatch({type:Types.USER_REGISTER_SUCCESS,data:res})
 					successCallback()
 				}else{

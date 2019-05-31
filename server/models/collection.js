@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-let newsListSchema = new Schema({
-	"tag":String,
-	"data":[
+let collectioniSchema = new Schema({
+	'user_id':String,
+	'type':String,
+	'nationalCollection':[
 		{
 			"single_mode": Boolean,
 			"abstract": String,
@@ -21,11 +22,6 @@ let newsListSchema = new Schema({
 			"comments_count": Number,
 			"media_url": String,
 			"media_avatar_url": String,
-			"image_list": [
-        {
-          "url": String,
-        },
-      ],
 			"video_duration_str": String,
 			"source_url": String,
 			"article_genre": String,
@@ -39,17 +35,23 @@ let newsListSchema = new Schema({
 			"group_id": String,
 			"middle_image": String
 		}
-	
+	],
+	"foreignCollection":[
+		{
+			"source": {
+        "id": String,
+        "name": String
+      },
+      "author": String,
+      "title": String,
+      "description": String,
+      "url": String,
+      "urlToImage": String,
+      "publishedAt": String,
+      "content": String
+		}
 	]
-	
 })
 
-module.exports = mongoose.model('News',newsListSchema);
+module.exports = mongoose.model('Collection',collectioniSchema);
 
-/* {
-	"_id" : ObjectId("5ca3075d14b08f261450a965"),
-	"user" : "admin",
-	"pwd" : "facea44ae73be1feda341d13ebfa5004",
-	"type" : "genius",
-	"__v" : 0
-} */

@@ -3,6 +3,7 @@ import { onLoadRefreshHome,onLoadMoreHome,onLoadHomeFavorite } from  './home/ind
 import { onLoadNewsDetail,onLoadForeignNewsDetail,onEditFavorite } from './newsDetail/index'
 import { onLoadFavoriteData }from './favorite/index'
 import { onLogin,onLogout,onRegister } from './user/index'
+import { onSearch } from './search/index'
 
 export default{
 	onThemeChange,	//改变主题
@@ -17,5 +18,6 @@ export default{
 	onLoadFavoriteData,	//获取收藏的文章列表
 	onLogin, //登录
 	onLogout, //退出登录
-	onRegister, // 注册
+	onRegister, // 注册,
+	onSearch
 }

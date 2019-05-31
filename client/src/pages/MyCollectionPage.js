@@ -36,13 +36,13 @@ class MyCollectionPage extends Component{
 	render(){
 		const {theme} = this.params
 		const TabNavigation = createAppContainer(createMaterialTopTabNavigator({
-			'Popular': {
+			'National': {
 				screen: props => <CollectionTabPage {...props} flag={FLAG_STORAGE.flag_national} theme={theme}/>,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
 				navigationOptions: {
 						title: '国内新闻',
 				},
 			},
-			'Trending': {
+			'Foreign': {
 				screen: props => <CollectionTabPage {...props} flag={FLAG_STORAGE.flag_foreign} theme={theme}/>,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
 				navigationOptions: {
 						title: '国外新闻',
@@ -77,7 +77,7 @@ class MyCollectionPage extends Component{
 			<View style={styles.container}>
 				{navigationBar}
 				<TabNavigation />
-				<Text>jj</Text>
+				{/* <Text>jj</Text> */}
 			</View>
 		)
 	}
@@ -158,7 +158,7 @@ class CollectionTab extends Component{
 		const store = this._store()
 		return(
 			<View>
-			<Text>子页面</Text>
+			{/* <Text>子页面</Text> */}
 				<FlatList 
 					data={store.projectModels}
 					renderItem={data=>this.renderItem(data)}
@@ -173,7 +173,7 @@ class CollectionTab extends Component{
 }
 
 const mapStateToProps = state => ({
-	favorite:state.favorite
+	favorite:state.favorite,
 })
 const mapDispatchToProps = dispatch => ({
 	onLoadFavoriteData:(tagName,isShowLoading) => dispatch(actions.onLoadFavoriteData(tagName,isShowLoading)),

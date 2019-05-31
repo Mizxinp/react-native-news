@@ -16,21 +16,16 @@ router.get('/national',function(req,res,next){
 	const flag = req.param('flag');
 	// console.log(req);
 	
-	News.findOne(function(err,doc){
+	News.find({tag:tagName},function(err,doc){
 		if(err){
 			res.json({
 				status:'1',
 				msg:err.message,
 			})
 		}else if(doc){
-			// console.log(doc.all);
-			let result = [];
+			let result = doc[0].data;
 			
-			Object.keys(doc._doc).forEach(item=>{
-				if(item==tagName){
-					result=doc._doc[item]
-				}
-			})
+			
 			// console.log('个数',result.length);
 			// flag:1表示刷新
 			/* 

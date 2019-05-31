@@ -27,30 +27,6 @@ class DetailPage extends Component{
 		}
 	}
 	componentDidMount(){
-
-		/* fetch('http://192.168.1.102:3000/news_info/editFavorite',{
-			method:'POST',
-			body:{
-				flag:'national',
-				content_id:11,
-				checked:true
-			}
-		})
-			.then((response)=>{
-				if(response.ok){
-					return response.json()
-				}else{
-					throw new Error('Network response was not ok')
-				}
-			})
-			.then((responseData)=>{
-				console.log('测试收藏结果',responseData);
-			})
-			.catch(error=>{
-				console.log('error',error);
-			}) */
-
-
 		const {contentId} = this.params
 		const {onLoadNewsDetail}=this.props
 		console.log('id',contentId);
@@ -91,10 +67,13 @@ class DetailPage extends Component{
 		)
 	}
 	onFavoriteButtonClick = () => {
-		const { onEditFavorite } = this.props
+		const { onEditFavorite,user } = this.props
 		const {contentId} = this.params
-		
-		onEditFavorite(FLAG_STORAGE.flag_national,contentId,!this.props.detail.isFavorite)
+		if(user.data){
+			onEditFavorite(FLAG_STORAGE.flag_national,contentId,!this.props.detail.isFavorite)
+		}else{
+			NavigationUtil.goPage({},'LoginPage')
+		}
 
 	}
 	renderComment=(data) =>{
@@ -174,11 +153,11 @@ class DetailPage extends Component{
 							onLinkPress={(url) => {
 							}}
 							stylesheet={{
-									p: {color:'#333',fontFamily:'Serif'}
+									p: {color:'#333',fontFamily:'Serif',fontSize:16}
 									// a: styles.description,
 							}}
 						/>
-						{item.comments.map(item=>this.renderComment(item))}
+						{item.comments&&item.comments.map(item=>this.renderComment(item))}
 				</ScrollView>
 			</View>:<Text>暂无数据</Text>
 		
@@ -187,6 +166,7 @@ class DetailPage extends Component{
 
 const mapStateToProps = state=>({
 	detail:state.newsDetail,
+	user:state.user
 })
 const mapDispatchToProps = dispatch=>({
 	onLoadNewsDetail:(content_id,url)=>dispatch(actions.onLoadNewsDetail(content_id,url)),

@@ -17,6 +17,7 @@ import AboutMePage from '../pages/AboutMePage'
 import RegisterPage from '../pages/RegisterPage'
 import MyPage from '../pages/MyPage'
 import SearchPage from '../pages/SearchPage'
+import SubscribePage from '../pages/SubscribePage'
 
 const InitNavigator = createStackNavigator({
 	WelcomePage: {
@@ -78,6 +79,12 @@ const MainNavigator = createStackNavigator({
 	},
 	SearchPage:{
 		screen:SearchPage,
+		navigationOptions:{
+			header:null
+		}
+	},
+	SubscribePage:{
+		screen:SubscribePage,
 		navigationOptions:{
 			header:null
 		}

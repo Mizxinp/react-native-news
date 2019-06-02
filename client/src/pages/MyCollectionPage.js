@@ -67,7 +67,7 @@ class MyCollectionPage extends Component{
 			barStyle:'light-content',
 		}
 		const navigationBar = <NavigationBar 
-			title={'新闻详情'}
+			title={'我的收藏'}
 			leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
 			// rightButton={this.renderRightButton()}
 			statusBar = {statusBar}

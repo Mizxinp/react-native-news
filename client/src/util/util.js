@@ -14,6 +14,16 @@ export function changeTag(type){
 			return 'news_society';
 		case '娱乐':
 			return 'news_entertainment';
+		case '游戏':
+			return 'news_game'
+		case '体育':
+			return 'news_sports'
+		case '汽车':
+			return 'news_car'
+		case '财经':
+			return 'news_finance'
+		case '历史':
+			return 'news_history'
 		default:
 			return 'all'
 	}

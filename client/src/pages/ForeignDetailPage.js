@@ -97,7 +97,7 @@ class ForeignDetailPage extends Component{
 			barStyle:'light-content',
 		}
 		const navigationBar = <NavigationBar 
-			title={'新闻详情'}
+			title={'News Detail'}
 			leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
 			rightButton={this.renderRightButton()}
 			statusBar = {statusBar}

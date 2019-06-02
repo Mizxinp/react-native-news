@@ -72,4 +72,35 @@ router.post('/login',function(req,res){
 	})
 })
 
+//获取订阅内容
+router.get('/getSubscribe',(req,res)=>{
+	const user_id = req.param('user_id')
+	User.findOne({_id:user_id},(err,doc)=>{
+		if(err){
+			util.responseError(res,err)
+		}else{
+			
+			util.responseSuccess(res,doc.my_subscribe)
+		}
+	})
+})
+
+// 修改订阅
+router.post('/editSubscribe',(req,res)=>{
+	const { tags,user_id } = req.body
+	User.update({_id:user_id},{my_subscribe:tags},(err,doc)=>{
+		if(err){
+			util.responseError(res,err)
+		}else if(doc){
+			let result = []
+			tags.forEach(item => {
+				if(item.checked){
+					result.push(item)
+				}
+			});
+			util.responseSuccess(res,result)
+		}
+	})
+})
+
 module.exports = router;

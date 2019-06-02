@@ -74,7 +74,7 @@ export default class DataStore{
 
 	// 获取网络数据
 	 fetchNetData(url){
-		 console.log('获取服务端数据');
+		//  console.log('获取服务端数据');
 		 
 		 return new Promise((resolve,reject)=>{
 				 	fetch(url)

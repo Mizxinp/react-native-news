@@ -26,26 +26,9 @@ class MyPage extends React.Component{
 		
 	}
 	onClick = (menu) => {
-		const {theme} = this.props
+		const {theme,user} = this.props
 		let RouteName,params = {theme}
 		switch (menu){
-			/* 
-			case MORE_MENU.Custom_Key:
-			case MORE_MENU.Custom_Language:
-			case MORE_MENU.Remove_Key:
-					RouteName = 'CustomKeyPage';
-					RouteName = 'CustomKeyPage';
-					params.isRemoveKey = menu === MORE_MENU.Remove_Key;
-					params.flag = menu !== MORE_MENU.Custom_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language;
-					break;
-			case MORE_MENU.Sort_Key:
-					RouteName = 'SortKeyPage';
-					params.flag = FLAG_LANGUAGE.flag_key;
-					break;
-			case MORE_MENU.Sort_Language:
-					RouteName = 'SortKeyPage';
-					params.flag = FLAG_LANGUAGE.flag_language;
-					break; */
 			case MORE_MENU.Custom_Theme: //自定义主题
 					const {onShowCustomThemeView} = this.props;
 					onShowCustomThemeView(true);
@@ -63,8 +46,6 @@ class MyPage extends React.Component{
 					break
 			case MORE_MENU.Register:
 					params.reflesh=()=>{
-						console.log('回调');
-						
 						this.setState({login_visible:!this.state.login_visible})
 					}
 					RouteName="RegisterPage";
@@ -72,7 +53,11 @@ class MyPage extends React.Component{
 			case MORE_MENU.About_Author:
 					RouteName = 'AboutMePage';
 					break;
-			
+			case MORE_MENU.Subscribe_tag:
+					params.theme=theme;
+					params.user_id=user.data._id
+					RouteName = 'SubscribePage';
+					break;
 		}
 		if(RouteName){
 			NavigationUtil.goPage(params,RouteName)
@@ -86,6 +71,10 @@ class MyPage extends React.Component{
 		const { theme } = this.props
 		return ViewUtil.getMenuItem(() => this.toMyCollection(menu), menu, theme.themeColor);
 	}
+	getSubscribeItem = (menu) => {
+		const { theme } = this.props
+		return ViewUtil.getMenuItem(() => this.toSubscribe(menu), menu, theme.themeColor);
+	}
 	toMyCollection = () => {
 		const {user} = this.props
 		if(user.data){
@@ -94,10 +83,18 @@ class MyPage extends React.Component{
 			this.onClick(MORE_MENU.Login)
 		}
 	}
+	toSubscribe = () => {
+		const {user} = this.props
+		if(user.data){
+			this.onClick(MORE_MENU.Subscribe_tag)
+		}else{
+			this.onClick(MORE_MENU.Login)
+		}
+	}
 	handleLogin = () => {
 		const {user} = this.props
 		if(user.data){
-			console.log('已经登录了');
+			// console.log('已经登录了');
 			this.onClick(MORE_MENU.About_Author)
 		}else{
 			this.onClick(MORE_MENU.Login)
@@ -111,7 +108,7 @@ class MyPage extends React.Component{
 	toRegister = () => {
 		NavigationUtil.goPage({
 			forceReflesh(){
-				console.log('进入回调');
+				// console.log('进入回调');
 				this.setState({register_visible:!this.state.register_visible})
 				// this.setState({register_visible:!this.state.register_visible})
 			}
@@ -119,7 +116,7 @@ class MyPage extends React.Component{
 	}
 	// toLogin = () =
 	render(){
-		console.log('props',this.props);
+		console.log('我的页面props',this.props);
 		// console.log('获取持久化数据',user_id);
 		// AsyncStorage.getItem('user',(err,result)=>{
 		// 	if(!err){
@@ -189,27 +186,27 @@ class MyPage extends React.Component{
 					}
 					<View style={GlobalStyles.line}/>
 					{this.getCollectionItem(MORE_MENU.My_Collection)}
-					{/*趋势管理*/}
-					<Text style={styles.groupTitle}>首页管理</Text>
-					{/*自定义语言*/}
-					{this.getItem(MORE_MENU.Custom_Language)}
+					{/*首页管理*/}
+					{/* <Text style={styles.groupTitle}>首页管理</Text> */}
+					{/*我的订阅*/}
+					{this.getSubscribeItem(MORE_MENU.Subscribe_tag)}
 					{/*语言排序*/}
 					<View style={GlobalStyles.line}/>
 					{this.getItem(MORE_MENU.Sort_Language)}
 
 					{/*最热管理*/}
-					<Text style={styles.groupTitle}>国际管理</Text>
+					{/* <Text style={styles.groupTitle}>国际管理</Text> */}
 					{/*自定义标签*/}
-					{this.getItem(MORE_MENU.Custom_Key)}
+					{/* {this.getItem(MORE_MENU.Custom_Key)} */}
 					{/*标签排序*/}
-					<View style={GlobalStyles.line}/>
-					{this.getItem(MORE_MENU.Sort_Key)}
+					{/* <View style={GlobalStyles.line}/> */}
+					{/* {this.getItem(MORE_MENU.Sort_Key)} */}
 					{/*标签移除*/}
-					<View style={GlobalStyles.line}/>
-					{this.getItem(MORE_MENU.Remove_Key)}
+					{/* <View style={GlobalStyles.line}/> */}
+					{/* {this.getItem(MORE_MENU.Remove_Key)} */}
 
 					{/*设置*/}
-					<Text style={styles.groupTitle}>设置</Text>
+					{/* <Text style={styles.groupTitle}>设置</Text> */}
 					{/*自定义主题*/}
 					{this.getItem(MORE_MENU.Custom_Theme)}
 					{/*关于作者*/}

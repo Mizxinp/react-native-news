@@ -96,54 +96,57 @@ class LoginPage extends Component{
 			style={{backgroundColor:'white'}}
 		/>
 		return(
-			<View style={{flex:1,padding:20}}>
+			<View style={{flex:1}}>
 				{navigationBar}
-				<Input
-					placeholder='输入用户名'
-					leftIcon={
-						<AntDesign
-							name='user'
-							size={24}
-							color='black'
-						/>
-					}
-					errorStyle={{ color: 'red' }}
-					leftIconContainerStyle={{left:-20}}
-					onChangeText={(value)=>{
-						this.inputChange(value,'username')
-					}}
-				/>
-				<Input
-					placeholder='密码'
-					leftIcon={
-						<AntDesign
-							name='lock1'
-							size={24}
-							color='black'
-						/>
-					}
-					secureTextEntry={true}
-					leftIconContainerStyle={{left:-20}}
-					onChangeText={(value)=>{
-						this.inputChange(value,'password')
-					}}
-					password={true}
-				/>
-				{this.state.error_visible?<Text style={styles.errorMessage}>用户名或密码错误</Text>:<Text></Text>}
-				<View style={styles.login}>
-					<Button
-						onPress={this.handleLogin}
-						title='登录'
-						color={theme.themeColor}
-						disabled={button_visible?false:true}
+				<Text style={{marginTop:50}}></Text>
+				<View style={{padding:20}}>
+					<Input
+						placeholder='输入用户名'
+						leftIcon={
+							<AntDesign
+								name='user'
+								size={24}
+								color='black'
+							/>
+						}
+						errorStyle={{ color: 'red' }}
+						leftIconContainerStyle={{left:-20}}
+						onChangeText={(value)=>{
+							this.inputChange(value,'username')
+						}}
 					/>
+					<Input
+						placeholder='密码'
+						leftIcon={
+							<AntDesign
+								name='lock1'
+								size={24}
+								color='black'
+							/>
+						}
+						secureTextEntry={true}
+						leftIconContainerStyle={{left:-20}}
+						onChangeText={(value)=>{
+							this.inputChange(value,'password')
+						}}
+						password={true}
+					/>
+					{this.state.error_visible?<Text style={styles.errorMessage}>用户名或密码错误</Text>:<Text></Text>}
+					<View style={styles.login}>
+						<Button
+							onPress={this.handleLogin}
+							title='登录'
+							color={theme.themeColor}
+							disabled={button_visible?false:true}
+						/>
+					</View>
+					<TouchableOpacity 
+						style={styles.register}
+						onPress={this.toRegister}
+					>
+						<Text>去注册</Text>
+					</TouchableOpacity>
 				</View>
-				{/* <TouchableOpacity 
-					style={styles.register}
-					onPress={this.toRegister}
-				>
-					<Text>去注册</Text>
-				</TouchableOpacity> */}
 			</View>
 		)
 	}

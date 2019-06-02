@@ -51,6 +51,13 @@ let userSchema = new Schema({
       "publishedAt": String,
       "content": String
 		}
+	],
+	"my_subscribe":[
+		{
+			"path":String,
+			"name":String,
+			"checked":Boolean
+		}
 	]
 })
 

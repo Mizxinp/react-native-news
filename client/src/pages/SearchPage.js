@@ -31,8 +31,11 @@ class SearchPage extends Component {
 	}
 
 	componentDidMount() {
+		const {searchKey} = this.params
 			this.backPress.componentDidMount();
-			this._loadData()
+			if(searchKey){
+				this._loadData()
+			}
 	}
 
 	componentWillUnmount() {
@@ -71,7 +74,7 @@ class SearchPage extends Component {
 					placeholder={'请输入'}
 					onChangeText={text => this.inputKey = text}
 					style={styles.textInput}
-					// value='华为'
+					value='华为'
 			>
 			</TextInput>;
 			let rightButton = this.renderRightButton()

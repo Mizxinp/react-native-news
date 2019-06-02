@@ -9,7 +9,6 @@ export function onLoadRefreshHome(tagName,url){
 		let dataStore = new DataStore();
 		dataStore.fetchData(url) //异步action与数据流
 			.then(res=>{
-				console.log('首页后端数据',res);
 				
 				// handleData(Types.HOME_REFRESH_SUCCESS,dispatch,tagName,res,pageSize)
 				if(res&&res.data&&res.data.status=='0'){

@@ -1,9 +1,10 @@
 import { onThemeChange,onShowCustomThemeView,onThemeInit } from './theme/index'
 import { onLoadRefreshHome,onLoadMoreHome,onLoadHomeFavorite } from  './home/index'
 import { onLoadNewsDetail,onLoadForeignNewsDetail,onEditFavorite } from './newsDetail/index'
-import { onLoadFavoriteData }from './favorite/index'
+import { onLoadFavoriteData}from './favorite/index'
 import { onLogin,onLogout,onRegister } from './user/index'
 import { onSearch } from './search/index'
+import { onLoadSubscribe,onEditSubscribe,onLoadInitSubscribe } from './subscribe/index'
 
 export default{
 	onThemeChange,	//改变主题
@@ -19,5 +20,8 @@ export default{
 	onLogin, //登录
 	onLogout, //退出登录
 	onRegister, // 注册,
-	onSearch
+	onSearch, //搜索
+	onLoadSubscribe, // 获取订阅信息
+	onEditSubscribe, // 订阅和取消订阅
+	onLoadInitSubscribe
 }

@@ -1,9 +1,11 @@
 import React ,{Component} from 'react'
-import { View,Text,ScrollView,StyleSheet,Image,TouchableOpacity } from 'react-native'
+import { View,Text,ScrollView,StyleSheet,Image,TouchableOpacity,TextInput } from 'react-native'
 import {connect} from 'react-redux'
 import HTMLView from 'react-native-htmlview'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 
 import NavigationBar from '../component/NavigationBar'
@@ -13,6 +15,7 @@ import ViewUtil from '../util/ViewUtil'
 import actions from '../action/index'
 import { FLAG_STORAGE }  from '../expand/storage/DataStore'
 import Api from '../expand/api/api'
+import GlobalStyles from '../assets/styles/GlobalStyles'
 
 const BASE_URL = Api.detailUrl
 // const BASE_URL = 'http://192.168.1.103:3000/news_info/national?content_id='
@@ -52,7 +55,8 @@ class DetailPage extends Component{
 	renderRightButton() {
 		return (
 			<View style={{flexDirection: 'row'}}>
-				<TouchableOpacity
+				
+				{/* <TouchableOpacity
 						onPress={() => {
 							this.onFavoriteButtonClick()
 						}}>
@@ -60,6 +64,20 @@ class DetailPage extends Component{
 								name={this.props.detail.isFavorite?'star':'star-o'}
 								size={20}
 								style={{color: 'white', marginRight: 10}}
+						/>
+				</TouchableOpacity> */}
+				<TouchableOpacity
+						onPress={() => {
+							// this.onFavoriteButtonClick()
+						}}>
+						<Ionicons
+							name={'ios-search'}
+							size={20}
+							style={{
+									marginRight: 8,
+									alignSelf: 'center',
+									color: 'white',
+							}}
 						/>
 				</TouchableOpacity>
 				{ViewUtil.getShareButton(() => {})}
@@ -78,7 +96,7 @@ class DetailPage extends Component{
 	}
 	renderComment=(data) =>{
 		const {user} = data
-		return <View style={{marginTop:15}} key={data.content_id}>
+		return <View style={{marginTop:15}} key={data.id}>
 						<View style={styles.discript}>
 							<View style={styles.left}>
 								{user&&<Image style={styles.avatar}
@@ -104,8 +122,59 @@ class DetailPage extends Component{
 							</View>
 						</View>
 						<View style={{marginTop:10,paddingLeft:29,paddingRight:20}}>
+							{/* <HTMLView value={data.text}/> */}
 							<Text style={{marginBottom:10}}>{data.text}</Text>
 							<Text>{data.reply_count}回复</Text>
+						</View>
+					</View>
+	}
+
+	renderBottom () {
+		const {theme} = this.params
+		return <View style={styles.bottomWrap}>
+						<View style={styles.bottomInner}>
+							<TextInput 
+								style={styles.textInput}
+								placeholder={'写评论...'}
+							/>
+							<TouchableOpacity
+								onPress={() => {
+								}}>
+								<EvilIcons
+										name={'comment'}
+										size={40}
+										// style={{color: 'white', marginRight: 10}}
+								/>
+							</TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => {
+									this.onFavoriteButtonClick()
+								}}>
+								<AntDesign
+										// name={'star-o'}
+										name={this.props.detail.isFavorite?'star':'staro'}
+										size={30}
+										// style={{color: this.props.detail.isFavorite?'#fec446':'#75775'}}
+								/>
+							</TouchableOpacity>
+							<TouchableOpacity
+									onPress={() => {
+									}}>
+									<AntDesign
+											name={'like2'}
+											size={30}
+											// style={{color: '#f5f5f5', marginRight: 10}}
+									/>
+							</TouchableOpacity>
+							<TouchableOpacity
+									onPress={() => {
+									}}>
+									<AntDesign
+											name={'back'}
+											size={30}
+											// style={{color: '#f5f5f5', marginRight: 10}}
+									/>
+							</TouchableOpacity>
 						</View>
 					</View>
 	}
@@ -159,6 +228,7 @@ class DetailPage extends Component{
 						/>
 						{item.comments&&item.comments.map(item=>this.renderComment(item))}
 				</ScrollView>
+				{this.renderBottom()}
 			</View>:<Text>暂无数据</Text>
 		
 	}
@@ -209,7 +279,27 @@ const styles = StyleSheet.create({
 	button:{
 		height:25,
 		width:50,
-		
 		backgroundColor:'#d62312'
+	},
+	bottomWrap:{
+		height:65,
+		position:'absolute',
+		borderTopWidth:1,
+		borderColor:'#999',
+		left: 0,
+		top: GlobalStyles.window_height - 65 ,
+		right: 0,
+		backgroundColor:'white'
+	},
+	bottomInner:{
+		padding:5,
+		height:55,
+		flexDirection:'row',
+		justifyContent:'space-between'
+	},
+	textInput:{
+		width:150,
+		backgroundColor:'#f5f5f5',
+		borderRadius:20,
 	}
 })

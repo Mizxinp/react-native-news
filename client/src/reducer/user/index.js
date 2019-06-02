@@ -1,11 +1,36 @@
+import {AsyncStorage} from 'react-native'
+
 import Types from '../../action/types'
 
-const initState={
+
+
+console.log('执行了用户reducer');
+
+let initState={
 	username:'',
 	type:'',
 	nationalCollection:[],
 	foreignCollection:[]
 }
+
+// AsyncStorage.getItem('user',(err,result)=>{
+// 	if(!err){
+// 		initState = result
+// 		console.log('哈哈',initState);
+		
+// 	}
+// })
+
+async function loadUserData(){
+	await AsyncStorage.getItem('user',(err,result)=>{
+		if(!err){
+			initState = result
+			console.log('哈哈',initState);
+			
+		}
+	})
+} 
+loadUserData()
 
 export default function onAction(state=initState,action){
 	switch(action.type){

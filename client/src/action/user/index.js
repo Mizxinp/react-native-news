@@ -27,11 +27,11 @@ export function onLogin(username,password,type='user',successCallback,errorCallb
 			.then(res=>{
 				// console.log('服务端获取到的数据',res);
 				if(res&&res.status=='0'){
-					// AsyncStorage.setItem('user',JSON.stringify(res.result),(err,result)=>{
-					// 	if(!err){
-					// 		console.log('存储成功');
-					// 	}
-					// })
+					AsyncStorage.setItem('user',JSON.stringify(res.result),(err,result)=>{
+						if(!err){
+							console.log('存储成功');
+						}
+					})
 					dispatch({type:Types.USER_LOGIN_SUCCESS,data:res})
 					successCallback()
 				}else{

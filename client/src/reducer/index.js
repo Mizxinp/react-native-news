@@ -7,6 +7,7 @@ import newsDetail from './newsDetail/index'
 import favorite from './favorite/index'
 import user from './user/index'
 import search from './search/index'
+import subscribe from './subscribe/index'
 
 //1.指定默认state
 const navState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams(rootCom));
@@ -26,7 +27,8 @@ const index = combineReducers({
     newsDetail,
     favorite,
     user,
-    search
+    search,
+    subscribe
 });
 
 export default index;

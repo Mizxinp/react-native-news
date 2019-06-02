@@ -107,66 +107,69 @@ class RegisterPage extends Component{
 			style={{backgroundColor:'white'}}
 		/>
 		return(
-			<View style={{flex:1,padding:20}}>
+			<View style={{flex:1}}>
 				{navigationBar}
-				<Input
-					placeholder='输入用户名'
-					leftIcon={
-						<AntDesign
-							name='user'
-							size={24}
-							color='black'
-						/>
-					}
-					errorStyle={{ color: 'red' }}
-					leftIconContainerStyle={{left:-20}}
-					onChangeText={(value)=>{this.inputChange(value,'username')}}
-				/>
-				<Input
-					placeholder='密码'
-					leftIcon={
-						<AntDesign
-							name='lock1'
-							size={24}
-							color='black'
-						/>
-					}
-					inputStyle={{marginTop:20}}
-					secureTextEntry={true}
-					leftIconContainerStyle={{left:-20}}
-					onChangeText={(value)=>{this.inputChange(value,'password')}}
-					password={true}
-				/>
-				<Input
-					placeholder='确认密码'
-					leftIcon={
-						<AntDesign
-							name='lock1'
-							size={24}
-							color='black'
-						/>
-					}
-					inputStyle={{marginTop:20}}
-					secureTextEntry={true}
-					leftIconContainerStyle={{left:-20}}
-					onChangeText={(value)=>{this.inputChange(value,'confirmPassword')}}
-					password={true}
-				/>
-				{error_visible?<Text style={styles.errorMessage}>{errorMsg}</Text>:<Text></Text>}
-				<View style={styles.login}>
-					<Button
-						onPress={this.handleRegister}
-						title='注册'
-						color={theme.themeColor}
-						disabled={button_visible?false:true}
+				<Text style={{marginTop:50}}></Text>
+				<View style={{padding:20}}> 
+					<Input
+						placeholder='输入用户名'
+						leftIcon={
+							<AntDesign
+								name='user'
+								size={24}
+								color='black'
+							/>
+						}
+						errorStyle={{ color: 'red' }}
+						leftIconContainerStyle={{left:-20}}
+						onChangeText={(value)=>{this.inputChange(value,'username')}}
 					/>
+					<Input
+						placeholder='密码'
+						leftIcon={
+							<AntDesign
+								name='lock1'
+								size={24}
+								color='black'
+							/>
+						}
+						inputStyle={{marginTop:20}}
+						secureTextEntry={true}
+						leftIconContainerStyle={{left:-20}}
+						onChangeText={(value)=>{this.inputChange(value,'password')}}
+						password={true}
+					/>
+					<Input
+						placeholder='确认密码'
+						leftIcon={
+							<AntDesign
+								name='lock1'
+								size={24}
+								color='black'
+							/>
+						}
+						inputStyle={{marginTop:20}}
+						secureTextEntry={true}
+						leftIconContainerStyle={{left:-20}}
+						onChangeText={(value)=>{this.inputChange(value,'confirmPassword')}}
+						password={true}
+					/>
+					{error_visible?<Text style={styles.errorMessage}>{errorMsg}</Text>:<Text></Text>}
+					<View style={styles.login}>
+						<Button
+							onPress={this.handleRegister}
+							title='注册'
+							color={theme.themeColor}
+							disabled={button_visible?false:true}
+						/>
+					</View>
+					<TouchableOpacity 
+						style={styles.register}
+						onPress={this.toLogin}
+					>
+						<Text>去登录</Text>
+					</TouchableOpacity>
 				</View>
-				{/* <TouchableOpacity 
-					style={styles.register}
-					onPress={this.toLogin}
-				>
-					<Text>去登录</Text>
-				</TouchableOpacity> */}
 			</View>
 		)
 	}

@@ -14,20 +14,27 @@ import NavigationUtil from '../navigator/NavigationUtil'
 import Api from '../expand/api/api'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import GlobalStyles from '../assets/styles/GlobalStyles'
+import types from '../action/types';
 
 const BASE_URL = Api.nationalURL
 
 const pageSize = 10;
 class HomePage extends Component{
 	constructor(props){
+		console.log('再一次进来了');
+		
 		super(props)
-		this.tabNames=['推荐','热点','科技','社会','娱乐']
+		
 		this.searchKey
-		// this.tabNames=['all','java','react']
+		// const {onLoadInitSubscribe} = this.props
+		// console.log('hahahaha',this.props);
+		// onLoadInitSubscribe()
 		// this.props.onThemeChange('#666')
+		
 	}
 	componentDidMount(){
-		AsyncStorage.clear()
+		
+		// AsyncStorage.clear()
 		/* fetch(BASE_URL)
 			.then((response)=>{
 				if(response.ok){
@@ -44,17 +51,29 @@ class HomePage extends Component{
 			}) */
 	}
 	changeTab = ()=>{
-		const {theme} = this.props
+		const {theme,subscribe} = this.props
+		
 		const tabs = {}
-		this.tabNames.forEach((item,index)=>{
-			// if(item.checked){
+		// let tags = subscribe.tags?subscribe.tags:this.initTabNames
+		// console.log('这是tags',tags);
+		
+		// if(subscribe.tags){
+		// 	subscribe.tags.forEach(item=>{
+		// 		this.tagNames=[]
+		// 		this.tabNames.push(item.name)
+		// 	})
+		// }else{
+		// 	this.tabNames=['推荐','热点','科技','社会','娱乐']
+		// }
+		subscribe.tags.forEach((item,index)=>{
+			if(item.checked){
 				tabs[`tab${index}`] = {
 					//  这种方法可以传递相应的参数
-					screen:props => <HomeTabPage {...props} tabLabel={item} theme={theme}/>,
+					screen:props => <HomeTabPage {...props} tabLabel={item.name} theme={theme}/>,
 					navigationOptions:{
-						title:item
+						title:item.name
 					}
-			// }
+			}
 				}
 		})
 		return tabs
@@ -71,25 +90,26 @@ class HomePage extends Component{
 
 	renderRightButton = () => {
 		const {theme} = this.props;
-		return <TouchableOpacity
-				onPress={() => {
-						// AnalyticsUtil.track("SearchButtonClick");
-						console.log('点击了');
-						
-						NavigationUtil.goPage({theme,searchKey:this.searchKey}, 'SearchPage')
-				}}
-		>
-				<View style={{padding: 5, marginRight: 8}}>
-						<Ionicons
-								name={'ios-search'}
-								size={24}
-								style={{
-										marginRight: 8,
-										alignSelf: 'center',
-										color: 'white',
-								}}/>
-				</View>
-		</TouchableOpacity>
+		return 	<TouchableOpacity
+							onPress={() => {
+									// AnalyticsUtil.track("SearchButtonClick");
+									console.log('点击了');
+									
+									NavigationUtil.goPage({theme,searchKey:'华为'}, 'SearchPage')
+							}}
+						>
+							<View style={{padding: 5, marginRight: 8}}>
+									<Ionicons
+										name={'ios-search'}
+										size={24}
+										style={{
+												marginRight: 8,
+												alignSelf: 'center',
+												color: 'white',
+										}}
+									/>
+							</View>
+						</TouchableOpacity>
 	}
 
 	renderNavBar() {
@@ -101,7 +121,7 @@ class HomePage extends Component{
 				ref="input"
 				placeholder={'请输入'}
 				onChangeText={text => this.searchKey = text}
-				// value="华为"
+				value="华为"
 				style={styles.textInput}
 		>
 		</TextInput>;
@@ -116,9 +136,11 @@ class HomePage extends Component{
 				{inputView}
 				{rightButton}
 		</View>
-}
+	}
 
 	render(){
+		console.log('首页props',this.props);
+		
 		const {theme} = this.props
 		const TabNavigation = createAppContainer(createMaterialTopTabNavigator(
 			this.changeTab(),
@@ -136,7 +158,7 @@ class HomePage extends Component{
 					indicatorStyle:styles.indicatorStyle,
 					labelStyle:styles.labelStyle
 				},
-				// lazy:true
+				lazy:true
 			}
 		))
 		
@@ -155,10 +177,12 @@ class HomePage extends Component{
 }
 
 const mapHomeStateToProps = state => ({
+	subscribe:state.subscribe,
 	theme:state.theme.theme
 })
 const mapHomeDispatchToProps = dispatch => ({
-	onThemeChange:(theme)=>dispatch(actions.onThemeChange(theme))
+	onThemeChange:(theme)=>dispatch(actions.onThemeChange(theme)),
+	// onLoadInitSubscribe:()=>dispatch(actions.onLoadInitSubscribe())
 })
 export default connect(mapHomeStateToProps,mapHomeDispatchToProps)(HomePage)
 
@@ -167,6 +191,8 @@ class HomeTab extends Component{
 	constructor(props){
 		super(props);
 		const {tabLabel} = this.props
+		console.log('传古来的‘',tabLabel);
+		
 		this.tagName = tabLabel
 		this.state={
 			pageIndex:1,

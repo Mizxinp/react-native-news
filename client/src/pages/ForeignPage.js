@@ -1,17 +1,19 @@
 import React,{Component} from 'react'
-import { Text,View,StyleSheet,Button,TouchableOpacity,TextInput,FlatList,RefreshControl,ActivityIndicator} from 'react-native'
+import { Text,View,StyleSheet,StatusBar,Platform,Button,TouchableOpacity,TextInput,FlatList,RefreshControl,ActivityIndicator} from 'react-native'
 import { createMaterialTopTabNavigator,createAppContainer } from 'react-navigation'
 import ViewPager from "@react-native-community/viewpager";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import actions from '../action/index'
 import { connect } from 'react-redux';
 import Toast from 'react-native-easy-toast'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import NavigationBar from '../component/NavigationBar'
 import {changeForeignTag} from '../util/util'
 import ForeignItem from '../component/foreignItem'
 import NavigationUtil from '../navigator/NavigationUtil'
 import Api from '../expand/api/api'
+import GlobalStyles from '../assets/styles/GlobalStyles'
 
 const BASE_URL = Api.foreignUrl
 // const BASE_URL = 'http://192.168.1.103:3000/news/foreign?tag='
@@ -20,7 +22,7 @@ const pageSize = 10;
 class HomePage extends Component{
 	constructor(props){
 		super(props)
-		this.tabNames=['综合','科学','体育','科技','娱乐']
+		this.tabNames=['general','science','sports','technology']
 		// this.tabNames=['all','java','react']
 		// this.props.onThemeChange('#666')
 	}
@@ -56,6 +58,55 @@ class HomePage extends Component{
 						</TouchableOpacity>
 		</View>
 	}
+	renderRightButton = () => {
+		const {theme} = this.props;
+		return <TouchableOpacity
+				onPress={() => {
+						// AnalyticsUtil.track("SearchButtonClick");
+						console.log('点击了');
+						
+						NavigationUtil.goPage({theme,searchKey:'华为'}, 'SearchPage')
+				}}
+		>
+				<View style={{padding: 5, marginRight: 8}}>
+						<Ionicons
+							name={'ios-search'}
+							size={24}
+							style={{
+									marginRight: 8,
+									alignSelf: 'center',
+									color: 'white',
+							}}
+						/>
+				</View>
+		</TouchableOpacity>
+	}
+
+	renderNavBar() {
+		const {theme} = this.props;
+		// const {showText, inputKey} = this.props.search;
+		// const placeholder = inputKey || "请输入";
+		// let backButton = ViewUtil.getLeftBackButton(() => this.onBackPress());
+		let inputView = <TextInput
+				ref="input"
+				placeholder={'请输入'}
+				onChangeText={text => this.searchKey = text}
+				// value="华为"
+				style={styles.textInput}
+		>
+		</TextInput>;
+		let rightButton = this.renderRightButton()
+				
+		return <View style={{
+				backgroundColor: theme.themeColor,
+				flexDirection: 'row',
+				alignItems: 'center',
+				height: (Platform.OS === 'ios') ? GlobalStyles.nav_bar_height_ios : GlobalStyles.nav_bar_height_android,
+		}}>
+				{inputView}
+				{rightButton}
+		</View>
+	}
 	render(){
 		const {theme} = this.props
 		const TabNavigation = createAppContainer(createMaterialTopTabNavigator(
@@ -78,20 +129,12 @@ class HomePage extends Component{
 			}
 		))
 
-		const statusBar = {
-			backgroundColor:theme.themeColor,
-			barStyle:'light-content',
-		}
-		const navigationBar = <NavigationBar 
-			// titleView = {this.renderTitleView()}
-			title={'国际新闻'}
-			statusBar = {statusBar}
-			style={theme.styles.navBar}
-		/>
+		let statusBar = <StatusBar backgroundColor={theme.themeColor}/>
 
 		return(
 			<View style={styles.container}>
-				{navigationBar}
+				{statusBar}
+				{this.renderNavBar()}
 				{TabNavigation&&<TabNavigation />}
 			</View>
 	
@@ -171,9 +214,9 @@ class HomeTab extends Component{
 
 	//获取请求路径
 	getFetchUrl = (key,pageIndex,flag) => {
-		let tag = changeForeignTag(key)
+		// let tag = changeForeignTag(key)
 		
-		return BASE_URL+tag+`&pageIndex=${pageIndex}&pageSize=10&flag=${flag}`
+		return BASE_URL+key+`&pageIndex=${pageIndex}&pageSize=10&flag=${flag}`
 	}
 
 	//获取与当前页面有关的数据
@@ -283,7 +326,7 @@ const styles = StyleSheet.create({
 	},
 	tabStyle:{
 		// minWidth:50
-		width:80
+		width:95
 	},
 	indicatorStyle: {
 		height: 2,
@@ -314,5 +357,18 @@ const styles = StyleSheet.create({
 		borderRadius: 3,
 		opacity: 0.7,
 		color: 'white'
-	}
+	},
+	textInput:{
+		flex: 1,
+		height: 35,
+		borderWidth: 1,
+		borderColor: "white",
+		alignSelf: 'center',
+		paddingLeft: 5,
+		marginRight: 10,
+		marginLeft: 20,
+		borderRadius: 3,
+		backgroundColor:'white',
+		width:'100%',
+	},
 })

@@ -12,4 +12,7 @@ export default{
 	loginUrl:`${BASE_API}/users/login`,//登录
 	registerUrl:`${BASE_API}/users/register`,//注册
 	searchUrl:`${BASE_API}/news_info/search?q=`,//搜索
+	subscribeUrl:`${BASE_API}/users/getSubscribe?user_id=`,//获取订阅信息
+	editSubscribeUrl:`${BASE_API}/users/editSubscribe`,		//订阅和取消订阅
+
 }
